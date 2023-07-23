@@ -1,0 +1,140 @@
+{% extends "Common/Website/base.html" %}
+{% load static %}
+{% load custom_tags %}
+
+{%block style%}
+<link rel="stylesheet" href="{% static 'website/css/wpsellerprofile.css' %}">
+{%endblock%}
+
+{%block content%}
+{%if data.success %}
+<div class="container-md my-5" style="font-size: 0.85rem;">
+    <div class="profile_section__card row">
+        <div class="col-3 text-center">
+            <img src="{%if data.profilepic %}{{data.profilepic.url}}{%else%}
+            {% static 'website/images/person.jpg' %}{%endif%}" alt="profilepic" class="profile_section__avatar"/>
+            <h5 style="font-weight: 600; margin-top: 10px;">{{data.displayname}}</h5>
+            <div>{% show_rating data.rating %}</div>
+            <div>Member since {{data.joining_date}}</div>
+            <div class="mt-2">
+                <a href="" class="profile_section__edit_btn">Contact Seller</a>
+                <a href="" class="profile_section__public_btn">Add Bookmark</a>
+            </div>
+        </div>
+        <div class="col-9">
+            <p class="profile_section__mini_title">Bio</p>
+            <div class="mb-2">{{data.bio}}</div>
+            <p class="profile_section__mini_title">About Me</p>
+            <div class="mb-2">{{data.details}}</div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-3 p-0">
+            <div class="external_platform_section">
+                <p class="profile_section__mini_title">Linked Accounts</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><i class="fa-solid fa-globe"></i></td>
+                            <td><a href="{{data.website}}" target="_blank">{{data.website}}</a></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-brands fa-facebook"></i></td>
+                            <td><a href="{{data.facebook}}" target="_blank">{{data.facebook}}</a></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-brands fa-instagram"></i></td>
+                            <td><a href="{{data.instagram}}" target="_blank">{{data.instagram}}</a></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-brands fa-twitter"></i></td>
+                            <td><a href="{{data.twitter}}" target="_blank">{{data.twitter}}</a></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-brands fa-whatsapp"></i></td>
+                            <td><a href="{{data.whatsapp}}" target="_blank">{{data.whatsapp}}</a></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-brands fa-telegram"></i></td>
+                            <td><a href="{{data.telegram}}" target="_blank">{{data.telegram}}</a></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-brands fa-behance"></i></td>
+                            <td><a href="{{data.behance}}" target="_blank">{{data.behance}}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="rating_section__card mt-3">
+                <p class="profile_section__mini_title">Recent Reviews</p>
+                {%for r in ratings %}
+                <div class="my-1 pb-2" style="font-size: 0.75rem;">
+                    <div>{% show_rating r.rating %}</div>
+                    <div style="color: var(--bo-primary-dark);">by {{r.rated_by}} on {{r.date |date}}</div>
+                    <div>{{r.details}}</div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+        <div class="col-9 pe-0">
+            <div class="offered_service__container">
+                <div class="mb-2">
+                    <p class="profile_section__mini_title">Services</p>
+                </div>
+                <div class="offered_service__inner_container">
+                    {%for g in gigs %}
+                    <div class="offered_service__card">
+                        <div class="offered_service__card__img_div">
+                            <img src="{{g.thumbnail.url}}" alt="servicepic" class="offered_service__card__img"/>
+                        </div>
+                        <div class="d-flex align-items-center px-3 py-2">
+                            <div class="offered_service__card__seller">
+                                <div>
+                                    <img src="{%if data.profilepic %}{{data.profilepic.url}}{%else%}
+                                    {% static 'website/images/person.jpg' %}{%endif%}" class="offered_service__card__seller_img"/>
+                                </div>
+                                <div style="font-size: 0.8rem;">
+                                    <div style="font-weight: 600;">{{data.displayname}}</div>
+                                    <div><i class="fa-solid fa-star"></i> {{data.rating}}</div>
+                                </div>
+                            </div>
+                            <div>
+                                <a href="" data-bs-toggle="tooltip" data-bs-placement="top" title="Bookmark"><i class="fa-regular fa-bookmark"></i></a>
+                            </div>
+                        </div>
+                        <a href="{% url 'SellerGigView' g.id %}" class="offered_service__link">
+                            {{g.title}}
+                        </a>
+                    </div>
+                    {%endfor%}
+                </div>
+            </div>
+            <div class="recent_works__container mt-3">
+                <div class="d-flex justify-content-between mb-2">
+                    <p class="profile_section__mini_title">Recent works</p>
+                </div>
+                <div class="recent_works__inner_container">
+                    {%for r in recent_works %}
+                    <div class="recent_works__card">
+                        <div class="recent_works__card__img_div">
+                            <img src="{{r.thumbnail.url}}" alt="servicepic" class="recent_works__card__img"/>
+                        </div>
+                        <div style="font-weight: 600;padding: 6px;">{{r.title}}</div>
+                        <div style="color: var(--bo-secondary-dark);padding: 0px 6px;">{{r.date | date}}</div>
+                        <div style="padding: 6px;text-align: justify;color: #373737;">{{r.description}}</div>
+                    </div>
+                    {%endfor%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%else%}
+<div class="container-md mt-3" style="height: 50vh;justify-content: center;display: flex;align-items: center;font-weight: bold;">
+    <div style="background: #f8f8f8;padding: 25px;border: 1px solid lightgray;"><i class="fa-solid fa-circle-exclamation"></i> No Data Available</div>
+</div>
+{%endif%}
+
+{%endblock%}
+

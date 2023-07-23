@@ -1,0 +1,96 @@
+{% extends "Common/Admin/base.html" %}
+{% block title %}
+    <title>Audit</title>
+{% endblock title %}
+
+{% block style %}
+{% endblock %}
+
+{% block content %}
+    {% include 'Common/Admin/sidebar.html' with data=cnav %}
+    <div class="app-body page-wrapper">
+
+        <main class="main">
+            <div class="page_header">Audit</div>
+
+            <div class="container-fluid">
+                <div style="display: flex; justify-content: center;">
+                    <a class="btn btn-outline-success btn-sm" href="{% url 'LogWithAuditManagement' %}" id="reloadItem">
+                        <i class="icon-refresh"></i> Reload
+                    </a>
+                </div>
+
+                <form method="GET" style="display: flex; position: relative; margin-top: 10px;" autocomplete="off">
+                    <input type="text" class="form-control form-control-sm" name="uname" id="uname"
+                           placeholder="Enter username" style="width: 200px;" value="{{ request.GET.uname }}">
+                    <input type="text" class="form-control form-control-sm" name="action" id="action"
+                           placeholder="Enter action" style="width: 200px;" value="{{ request.GET.action }}">
+                    <input type="text" class="form-control form-control-sm" name="keyword" id="keyword"
+                           placeholder="Enter text" style="width: 200px;" value="{{ request.GET.keyword }}">
+                    <input type="text" class="form-control form-control-sm datetimepicker-input" id="search_date"
+                           name="search_date" data-target="#search_date"
+                           placeholder="Enter date" style="width: 150px;" value="{{ request.GET.search_date }}">
+                    <button type="submit" class="submit btn btn-sm btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+
+                <table class="table table-striped table-bordered table-sm bg-white mt-3">
+                    <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Action Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th colspan="8">Details</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ad in audits %}
+                        <tr>
+                            <td>{{ ad.user }}</td>
+                            <td>{{ ad.action_name }}</td>
+                            <td>{{ ad.timestamp|date:"D , d M , Y" }}</td>
+                            <td>{{ ad.timestamp|date:"h:i a" }}</td>
+                            <td colspan="8">{{ ad.action_details }}</td>
+                            <td>
+                                {% if privilege and privilege.view_task %}
+                                    <a class="btn btn-sm btn-primary" href="{% url 'LogWithAuditDetailsView' ad.id %}">
+                                        <i class="icon-eye"></i> View
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {% if audits %}
+                        <tr></tr>
+                    {% else %}
+                        <tr class="odd">
+                            <td colspan="13" style="text-align: center;">No data available in table</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+
+                <div class="card-footer bg-light p-0">
+                    {% include 'Common/Admin/pagination.html' with data=audits %}
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(function () {
+            var picker1 = new Pikaday({
+                field: document.getElementById('search_date'),
+                format: 'YYYY-MM-DD',
+                setDefaultDate: true
+            });
+        });
+    </script>
+{% endblock %}

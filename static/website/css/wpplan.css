@@ -1,0 +1,36 @@
+.special__title {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.active__title {
+    background: var(--bo-primary);
+    color: white;
+    padding: 10px 20px;
+}
+
+.inactive__link {
+    text-decoration: none;
+    color: black;
+    background: #f8f8f8;
+    display: block;
+    padding: 10px 20px;
+    border: 1px solid lightgray;
+    cursor: pointer;
+}
+
+.note__card {
+    background: #f8f8f8;
+    padding: 10px;
+    font-size: 0.8rem;
+    border-top: 4px solid var(--bo-secondary);
+}
+
+.d__service__title {
+    background: var(--bo-secondary-light);
+    color: white;
+    padding: 10px;
+    font-weight: 600;
+    margin-top: 20px;
+}

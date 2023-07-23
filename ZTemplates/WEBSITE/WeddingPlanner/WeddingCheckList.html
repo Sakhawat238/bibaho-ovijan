@@ -1,0 +1,76 @@
+{% extends "Common/Website/base.html" %}
+{% load static %}
+
+{%block style%}
+<link rel="stylesheet" href="{% static 'website/css/wpplan.css' %}">
+{%endblock%}
+
+{%block content%}
+<div class="container-md mt-5" style="min-height: 450px;">
+    <div class="special__title">Simplify Your Wedding Planning Journey</div>
+    <div class="row pt-5">
+        <div class="col-2">
+            <div class="active__title">Checklist</div>
+            <a class="inactive__link" href="{%url 'WeddingPlanNote' %}">Notes</a>
+            <a class="inactive__link" href="{%url 'WeddingPlanDirectory' %}">Directory</a>
+        </div>
+        <div class="col-8">
+            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#checklistModal">Add New Checklist</button>
+            <table class="table table-sm table-bordered mt-3">
+                <tbody>
+                    {%for d in data %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{d.description}}</td>
+                        <td class="text-center">
+                            {%if d.is_completed %}
+                            <i class="fa-sharp fa-solid fa-circle-check"></i> &nbsp;&nbsp;
+                            {%else%}
+                            <a href="{%url 'MarkWeddingPlanChecklistComplete' d.id %}?" style="cursor: pointer;"><i class="fa-regular fa-square"></i></a> &nbsp;&nbsp;
+                            {%endif%}
+                            <a href="{%url 'DeleteWeddingPlanChecklist' d.id %}" style="color: red;"><i class="fa-solid fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="checklistModal" tabindex="-1" aria-labelledby="checklistModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <textarea id="remarks" class="form-control" rows="2" maxlength="200" placeholder="Write here.."></textarea>
+                <div class="text-center mt-2">
+                    <button type="button" class="btn btn-sm btn-primary" id="addchecklist" data-bs-dismiss="modal">Add checklist</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
+
+{%block js%}
+<script>
+$(document).ready(function(){
+    $('#addchecklist').click(function(){
+        remarks = $('#remarks').val();
+        $.ajax({
+            url: '{%url "AddWeddingPlanChecklist" %}',
+            data: {
+                'desc': remarks
+            },
+            success: function(data) {
+                if(data["success"] == true) {
+                    location.reload();
+                }
+            }
+        });
+    });
+});
+</script>
+{%endblock%}

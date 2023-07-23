@@ -1,0 +1,69 @@
+{% extends "Common/Website/base.html" %}
+{% load static %}
+
+{%block style%}
+<link rel="stylesheet" href="{% static 'website/css/wpplan.css' %}">
+{%endblock%}
+
+{%block content%}
+<div class="container-md mt-5" style="min-height: 450px;">
+    <div class="special__title">Simplify Your Wedding Planning Journey</div>
+    <div class="row pt-5">
+        <div class="col-2">
+            <a class="inactive__link" href="{%url 'WeddingPlanChecklist' %}">Checklist</a>
+            <div class="active__title">Notes</div>
+            <a class="inactive__link" href="{%url 'WeddingPlanDirectory' %}">Directory</a>
+        </div>
+        <div class="col-8">
+            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#noteModal">Add New Note</button>
+            <div class="d-flex mt-3" style="gap: 10px;">
+                {%for d in data %}
+                <div class="note__card">
+                    <div style="font-weight: bold;">{{d.title}}</div>
+                    <div>{{d.description}}</div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="title" class="form-control" placeholder="Title"/>
+                <textarea id="remarks" class="form-control" rows="2" maxlength="200" placeholder="Details"></textarea>
+                <div class="text-center mt-2">
+                    <button type="button" class="btn btn-sm btn-primary" id="addnote" data-bs-dismiss="modal">Add Note</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
+
+{%block js%}
+<script>
+$(document).ready(function(){
+    $('#addnote').click(function(){
+        title = $("#title").val();
+        remarks = $('#remarks').val();
+        $.ajax({
+            url: '{%url "AddWeddingPlanNote" %}',
+            data: {
+                'title': title,
+                'desc': remarks
+            },
+            success: function(data) {
+                if(data["success"] == true) {
+                    location.reload();
+                }
+            }
+        });
+    });
+});
+</script>
+{%endblock%}

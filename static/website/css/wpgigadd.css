@@ -1,0 +1,66 @@
+#the-count {
+    float: right;
+    padding: 0.1rem 0 0 0;
+    font-size: 0.875rem;
+}
+
+.basic_package_div {
+    padding: 0;
+    border: 1px solid gray;
+    background: #efefef;
+}
+
+.basic_package_div__title {
+    text-align: center;
+    background: #c9c9c9;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.standard_package_div {
+    padding: 0;
+    border: 1px solid gray;
+    background-color: #e3fff6;
+}
+
+.standard_package_div__title {
+    text-align: center;
+    background: #a5f1d9;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.premium_package_div {
+    padding: 0;
+    border: 1px solid gray;
+    background-color: #e4e4ff;
+}
+
+.premium_package_div__title {
+    text-align: center;
+    background: #c2c2ff;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.custom_package_div {
+    padding: 0;
+    border: 1px solid gray;
+    background-color: #ffffeb;
+}
+
+.custom_package_div__title {
+    text-align: center;
+    background: #f5f5a2;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.package_div__inner {
+    font-size: 0.8rem;
+    padding: 10px;
+}
+
+.ck-editor__editable[role="textbox"] {
+    min-height: 400px;
+}

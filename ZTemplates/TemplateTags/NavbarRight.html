@@ -1,0 +1,49 @@
+{%load static %}
+{%if not loggedin %}
+<a class="btn nav__login_btn"  data-bs-toggle="modal" data-bs-target="#loginModal" >Login</a>
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login to your account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'WebsiteLogin' %}" autocomplete="off">
+                    {% csrf_token %}
+                    <label for="mobile">Mobile Number</label>
+                    <input type="text" id="mobile" name="mobile_no" class="form-control mb-2" required/>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="pass_word" class="form-control mb-3" required/>
+                    <div class="text-center">
+                        <button class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{%else%}
+<div class="btn-group">
+    <a data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+        {%if pic %}
+        <img src="{{pic.url}}" alt="profilepic" style="width: 45px;border-radius: 50%;"/>
+        {%else%}
+        <img src="{% static 'website/images/person.jpg' %}" style="width: 40px;border-radius: 50%;"/>
+        {%endif%}
+    </a>
+    <ul class="dropdown-menu dropdown-menu-star">
+        {%if type == "seller" %}
+        <li><a class="dropdown-item" href="{% url 'SellerProfile' slug %}">Profile</a></li>
+        {%elif type == "visitor" %}
+        <li><a class="dropdown-item" href="{% url 'WeddingPlanChecklist'%}">Your Plan</a></li>
+        <li><a class="dropdown-item" href="{% url 'BookmarkList'%}">Bookmarks</a></li>
+        {%endif%}
+        <li><a class="dropdown-item" href="#">Settings</a></li>
+        <li><a class="dropdown-item" href="#">Help & Support</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{% url 'WebsiteLogout' %}">Logout</a></li>
+    </ul>
+</div>
+{%endif%}

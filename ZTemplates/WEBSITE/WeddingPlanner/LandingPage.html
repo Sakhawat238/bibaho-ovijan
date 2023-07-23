@@ -1,0 +1,329 @@
+{% extends "Common/Website/base.html" %}
+{% load static %}
+
+{%block style%}
+<link rel="stylesheet" href="{% static 'website/css/wplandingpage.css' %}">
+{%endblock%}
+
+{%block content%}
+<div class="container-fluid hero_section__outer_container">
+    <div class="container-md">
+        <div class="row py-5">
+            <div class="col-12 col-lg-6 col-xl-6 d-flex flex-column justify-content-center">
+                <p class="hero_section__title">
+                    Discover, Connect, and Create Your Perfect Wedding Moment.
+                </p>
+                <form method="get" action="{%url 'SellerGigList' %}" autocomplete="off" class="d-flex">
+                    <input type="text" placeholder="Service.." name="s" class="form-control hero_section__search_input" list="service-list"/>
+                    <datalist id="service-list">
+                        {% for s in service_names %}
+                        <option value="{{s.title}}" />
+                        {% endfor %}
+                    </datalist>
+                    <button class="btn btn-primary hero_section__search_btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+                <div class="hero_section__popular_div">
+                    <span>Popular : </span>
+                    {% for p in popular_services %}
+                    <a href="{%url 'SellerGigList'%}?s={{p.title}}" class="hero_section__popular_service">{{p.title}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-6 d-none d-lg-block d-xl-block">
+                <img src="{% static 'website/images/planning-details.png' %}" alt="planning" style="width: 375px;"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-md pt-2 pt-lg-5 pt-xl-5 text-center">
+    <h4 style="font-weight: 600;">Your wedding day deserves nothing less than perfection</h4>
+    <p>
+        Join Bibahoovijan today and let us help you bring your wedding vision to life. 
+        Discover talented professionals, embrace personalization, and 
+        create unforgettable memories that will be cherished for a lifetime.
+    </p>
+    {%if not loggedin %}
+    <div>
+        <button class="btn register_now_btn">Register Now</button>
+        <button class="btn become_seller_btn" data-bs-toggle="modal" data-bs-target="#sellerRegModal">Become a Seller</button>
+    </div>
+    {%endif%}
+</div>
+
+<div  class="container-md mt-5 pt-5">
+    <h4 style="font-weight: 600; padding: 20px;">Comprehensive Services at Your Fingertips</h4>
+    <div class="service_section__main_container">
+        {% for s in service_list %}
+        <a href="{%url 'SellerGigList'%}?s={{s.title}}" class="service_section__card_container">
+            <img src="{{s.icon.url}}" alt="invitation" class="service_section__card_icon"/>
+            <div class="service_section__divider"></div>
+            <p class="service_section__card_title">{{s.title}}</p>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container-md mt-5 pt-5">
+    <div style="background-color: #f8f8f8; padding: 20px;">
+        <h4 style="font-weight: 600;">How We Exceed Expectations</h4>
+        <p>
+            At Bibahoovijan, we understand that your wedding day is a once-in-a-lifetime event, 
+            filled with precious moments and cherished memories. 
+            We are passionate about helping you bring your dream wedding to life, 
+            and here's why you should choose us as your trusted partner:
+        </p>
+    </div>
+    <div class="whyus_section__main_container">
+        <div class="whyus_section__card_container">
+            <p class="whyus_section__card_title">Wedding Services</p>
+            <p class="whyus_section__card_details">
+                We offer an extensive range of wedding services, carefully curated to meet your unique needs and preferences. 
+                From talented photographers and skilled decorators to culinary experts and talented makeup artists, 
+                our platform showcases a diverse array of top-tier professionals, all specializing in the art of creating unforgettable weddings.
+            </p>
+        </div>
+        <div class="whyus_section__card_container">
+            <p class="whyus_section__card_title">Quality and Reliability</p>
+            <p class="whyus_section__card_details">
+                We prioritize quality and reliability above all else. Every service provider on our platform undergoes a 
+                rigorous screening process to ensure they meet our high standards of professionalism, skill, and customer satisfaction. 
+                Rest assured, the vendors you find on Bibahoovijan are trusted experts dedicated to delivering excellence.
+            </p>
+        </div>
+        <div class="whyus_section__card_container">
+            <p class="whyus_section__card_title">Personalization and Flexibility</p>
+            <p class="whyus_section__card_details">
+                We believe in the power of personalization. Your wedding should reflect your love story and unique style. 
+                With our platform, you have the freedom to browse through a wide range of service providers, compare their portfolios, 
+                read reviews, and connect directly with those who resonate with your vision. This level of flexibility ensures that 
+                every aspect of your special day is tailored to your desires.
+            </p>
+        </div>
+        <div class="whyus_section__card_container">
+            <p class="whyus_section__card_title">Simplified Planning Process</p>
+            <p class="whyus_section__card_details">
+                Planning a wedding can be overwhelming, but we're here to make it easier for you. 
+                Our user-friendly platform is designed to streamline your wedding planning journey. 
+                With intuitive search filters, detailed profiles, and seamless communication tools, you can effortlessly 
+                connect with service providers, discuss your requirements, and make informed decisions, all in one convenient place.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid special_offer__container">
+    Simplify Your Wedding Planning Journey with Expert Service Providers
+</div>
+
+<div class="container-md my-5 pt-5">
+    <h4 style="font-weight: 600;">Unleashing Creativity on Bibahoovijan</h4>
+    <div id="successStoriesCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#successStoriesCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#successStoriesCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#successStoriesCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="success_stories__card_container">
+                    <div class="success_stories__card">
+                        <div class="success_stories__card__img_div">
+                            <img src="{% static 'website/images/rw01.png' %}" alt="weddingphoto" class="success_stories__card__img"/>
+                        </div>
+                        <div class="success_stories__card__title">
+                            <div>
+                                <img src="{% static 'website/images/person.jpg' %}" class="success_stories__card__title_img"/>
+                            </div>
+                            <div style="font-size: 0.8rem;">
+                                <div style="font-weight: 600;">Photography</div>
+                                <div>by Arifur Rahman</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="success_stories__card">
+                        <div class="success_stories__card__img_div">
+                            <img src="{% static 'website/images/rw02.png' %}" alt="weddingphoto" class="success_stories__card__img"/>
+                        </div>
+                        <div class="success_stories__card__title">
+                            <div>
+                                <img src="{% static 'website/images/person.jpg' %}" class="success_stories__card__title_img"/>
+                            </div>
+                            <div style="font-size: 0.8rem;">
+                                <div style="font-weight: 600;">Decoration</div>
+                                <div>by Afnanul Hassan</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="success_stories__card">
+                        <div class="success_stories__card__img_div">
+                            <img src="{% static 'website/images/rw01.png' %}" alt="weddingphoto" class="success_stories__card__img"/>
+                        </div>
+                        <div class="success_stories__card__title">
+                            <div>
+                                <img src="{% static 'website/images/person.jpg' %}" class="success_stories__card__title_img"/>
+                            </div>
+                            <div style="font-size: 0.8rem;">
+                                <div style="font-weight: 600;">Photography</div>
+                                <div>by Arifur Rahman</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="success_stories__card">
+                        <div class="success_stories__card__img_div">
+                            <img src="{% static 'website/images/rw02.png' %}" alt="weddingphoto" class="success_stories__card__img"/>
+                        </div>
+                        <div class="success_stories__card__title">
+                            <div>
+                                <img src="{% static 'website/images/person.jpg' %}" class="success_stories__card__title_img"/>
+                            </div>
+                            <div style="font-size: 0.8rem;">
+                                <div style="font-weight: 600;">Decoration</div>
+                                <div>by Afnanul Hassan</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="success_stories__card_container">
+                    <div class="success_stories__card">
+                        <div class="success_stories__card__img_div">
+                            <img src="{% static 'website/images/rw01.png' %}" alt="weddingphoto" class="success_stories__card__img"/>
+                        </div>
+                        <div class="success_stories__card__title">
+                            <div>
+                                <img src="{% static 'website/images/person.jpg' %}" class="success_stories__card__title_img"/>
+                            </div>
+                            <div style="font-size: 0.8rem;">
+                                <div style="font-weight: 600;">Photography</div>
+                                <div>by Arifur Rahman</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="success_stories__card">
+                        <div class="success_stories__card__img_div">
+                            <img src="{% static 'website/images/rw02.png' %}" alt="weddingphoto" class="success_stories__card__img"/>
+                        </div>
+                        <div class="success_stories__card__title">
+                            <div>
+                                <img src="{% static 'website/images/person.jpg' %}" class="success_stories__card__title_img"/>
+                            </div>
+                            <div style="font-size: 0.8rem;">
+                                <div style="font-weight: 600;">Decoration</div>
+                                <div>by Afnanul Hassan</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="success_stories__card">
+                        <div class="success_stories__card__img_div">
+                            <img src="{% static 'website/images/rw01.png' %}" alt="weddingphoto" class="success_stories__card__img"/>
+                        </div>
+                        <div class="success_stories__card__title">
+                            <div>
+                                <img src="{% static 'website/images/person.jpg' %}" class="success_stories__card__title_img"/>
+                            </div>
+                            <div style="font-size: 0.8rem;">
+                                <div style="font-weight: 600;">Photography</div>
+                                <div>by Arifur Rahman</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="success_stories__card">
+                        <div class="success_stories__card__img_div">
+                            <img src="{% static 'website/images/rw02.png' %}" alt="weddingphoto" class="success_stories__card__img"/>
+                        </div>
+                        <div class="success_stories__card__title">
+                            <div>
+                                <img src="{% static 'website/images/person.jpg' %}" class="success_stories__card__title_img"/>
+                            </div>
+                            <div style="font-size: 0.8rem;">
+                                <div style="font-weight: 600;">Decoration</div>
+                                <div>by Afnanul Hassan</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#successStoriesCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#successStoriesCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="sellerRegModal" tabindex="-1" aria-labelledby="sellerRegModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sellerRegModalLabel">Create An Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="seller-register/" autocomplete="off" id="sellerRegForm">
+                    {% csrf_token %}
+                    <div id="sellerRegFromError" style="color: red; font-weight: 600; font-size: 0.8rem;"></div>
+                    <label for="fullname">Full Name</label>
+                    <input type="text" name="full_name" id="fullname" class="form-control mb-2" />
+                    <label for="email">Email Address</label>
+                    <input type="email" name="email_address" id="email" class="form-control mb-2"/>
+                    <label for="mobileno">Mobile Number</label>
+                    <input type="text" pattern="01[3-9]{1}[0-9]{8}" name="mobile_no" id="mobileno" class="form-control mb-2" required placeholder="required"/>
+                    <label for="password1">Password</label>
+                    <input type="password" name="pass_word" id="password1" class="form-control" required placeholder="required"/>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-primary" id="btnSellerReg">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="url-div" me-check="{% url 'apicheckvalidmobileemail' %}"></div>
+{%endblock%}
+
+{%block js%}
+<script>
+    $('#btnSellerReg').click(function(){
+        mobile = $('#mobileno').val();
+        email = $('#email').val();
+        password = $('#password1').val();
+
+        if(mobile=="" || password=="") {
+            $('#sellerRegFromError').html("<p>Please fill up all required fields.</p>");
+            return;
+        }
+
+        if(mobile.length != 11) {
+            $('#sellerRegFromError').html("<p>Invalid mobile number.</p>");
+            return;
+        }
+
+        $.ajax({
+            url: $('#url-div').attr('me-check'),
+            data: {
+                'mobile': mobile,
+                'email': email
+            },
+            success: function(data) {
+                if(data["mobile"] == false && data["email"] == false) {
+                    $('#sellerRegFromError').html("<p>Mobile Number and Email already exists.</p>");
+                } else if (data["mobile"] == true && data["email"] == false) {
+                    $('#sellerRegFromError').html("<p>Email already exists.</p>");
+                } else if (data["mobile"] == false && data["email"] == true) {
+                    $('#sellerRegFromError').html("<p>Mobile Number already exists.</p>");
+                } else {
+                    $('#sellerRegForm').submit();
+                }
+            },
+            error: function(data) {}
+        });
+    });
+</script>
+{%endblock%}

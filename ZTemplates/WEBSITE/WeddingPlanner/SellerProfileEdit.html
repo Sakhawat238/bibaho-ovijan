@@ -1,0 +1,106 @@
+{% extends "Common/Website/base.html" %}
+{%load static%}
+
+{%block style%}
+<link rel="stylesheet" href="{% static 'website/css/wpsellerprofileedit.css' %}">
+{%endblock%}
+
+{%block content%}
+<div class="container-md my-5" style="font-size: 0.85rem;">
+    <div class="mb-3">
+        <p>You need to complete atleast 65% of your profile to access all the features of this platform.</p>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: {{data.profile_completion}}%;" aria-valuenow="{{data.profile_completion}}" aria-valuemin="0" aria-valuemax="100">
+                Profile Completed: {{data.profile_completion}}%
+            </div>
+        </div>
+    </div>
+    <form method="post" autocomplete="off">
+        {%csrf_token%}
+        <div class="row mx-0">
+            <div class="col-6 profile_edit__card">
+                <label for="displayname" class="form-label fw-bold">Display Name</label>
+                <input type="text" class="form-control form-control-sm mb-3" id="displayname" name="display_name" required value="{{data.displayname}}"/>
+                <label for="mobile" class="form-label fw-bold">Contact Mobile</label>
+                <input type="text" pattern="01[3-9]{1}[0-9]{8}" class="form-control form-control-sm mb-3" id="mobile" name="mobile_no" required value="{{data.contact_mobile}}"/>
+                <label for="email" class="form-label fw-bold">Contact Email</label>
+                <input type="email" class="form-control form-control-sm mb-3" id="email" name="email_address" required value="{{data.contact_email}}"/>
+                <label for="Address" class="form-label fw-bold">Business Address</label>
+                <input type="text" class="form-control form-control-sm mb-3" id="address" name="address" value="{{data.address}}"/>
+            </div>
+            <div class="col-6 profile_edit__card">
+                <div class="card-body text-center">
+                    <img id="prevw_img" 
+                    {% if employee.image %}
+                    src="{{ employee.image.url }}"{%else%}src="{%static 'website/images/human_avatar.jpg' %}"
+                    {%endif%} 
+                    class="img-account-profile mb-2" alt="profile picture" width="250px" />
+
+                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 1 MB</div>
+                    <input style="all: unset;" type="file" accept="image/*" {% if employee.image %} value="{{ employee.image }}" {% endif %}
+                    class="ml-5" name="profile_image" id="profile_image">
+                </div>
+            </div>
+        </div>
+        <div class="profile_edit__card mt-3">
+            <label for="bio" class="form-label fw-bold">Bio</label>
+            <textarea name="bio" id="bio" rows="2" class="form-control" maxlength="250">{{data.bio}}</textarea>
+            <div id="the-count">
+                <span id="current">0</span>
+                <span>/ 250</span>
+            </div>
+            <label for="details" class="form-label fw-bold mt-3">Details About You</label>
+            <textarea name="details" id="details" rows="8" class="form-control" maxlength="1000">{{data.details}}</textarea>
+            <div id="the-count2">
+                <span id="current2">0</span>
+                <span>/ 1000</span>
+            </div>
+        </div>
+        <div class="row mx-0 mt-3">
+            <div class="col-6 profile_edit__card">
+                <label for="website" class="form-label fw-bold">Website</label>
+                <input type="text" class="form-control form-control-sm mb-3" id="website" name="web_site" value="{{data.website}}"/>
+                <label for="facebook" class="form-label fw-bold">Facebook</label>
+                <input type="text" class="form-control form-control-sm mb-3" id="facebook" name="face_book" value="{{data.facebook}}"/>
+                <label for="instagram" class="form-label fw-bold">Instagram</label>
+                <input type="text" class="form-control form-control-sm mb-3" id="instagram" name="insta_gram" value="{{data.instagram}}"/>
+                <label for="twitter" class="form-label fw-bold">Twitter</label>
+                <input type="text" class="form-control form-control-sm mb-3" id="twitter" name="twit_ter" value="{{data.twitter}}"/>
+                <label for="whatsapp" class="form-label fw-bold">Whatsapp</label>
+                <input type="text" class="form-control form-control-sm mb-3" id="whatsapp" name="whats_app" value="{{data.whatsapp}}"/>
+                <label for="telegram" class="form-label fw-bold">Telegram</label>
+                <input type="text" class="form-control form-control-sm mb-3" id="telegram" name="tele_gram" value="{{data.telegram}}"/>
+                <label for="behance" class="form-label fw-bold">Behance</label>
+                <input type="text" class="form-control form-control-sm mb-3" id="behance" name="be_hance" value="{{data.behance}}"/>
+            </div>
+            <div class="col-6 profile_edit__card"></div>
+        </div>
+        <div class="text-center mt-3"><button class="btn update_profile_btn">Update Profile</button></div>
+    </form>
+</div>
+{%endblock%}
+
+{%block js%}
+<script>
+function updateCurrentBioCharCount() {
+    var characterCount = $('#bio').val().length;
+    current = $('#current');
+    current.text(characterCount);
+}
+
+function updateCurrentDetailsCharCount() {
+    var characterCount = $('#details').val().length;
+    current = $('#current2');
+    current.text(characterCount);
+}
+
+$(document).ready(function(){
+    updateCurrentBioCharCount();
+    updateCurrentDetailsCharCount();
+});
+
+$('#bio').keyup(updateCurrentBioCharCount);
+$('#details').keyup(updateCurrentDetailsCharCount);
+</script>
+{%endblock%}
+

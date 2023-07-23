@@ -1,0 +1,117 @@
+{% extends "Common/Admin/base.html" %}
+{%load static%}
+{%block title%}
+<title>Authentication</title>
+{%endblock title%}
+{%block style%}
+{%endblock%}
+{%block content%}
+
+{%if messages%}
+    {%for message in messages%}
+    <script type="text/javascript">
+        toastr["{{message.tags}}"]("{{message}}", "{{message.tags|upper}}");
+    </script>
+    {%endfor%}
+{%endif%}
+
+{% include 'Common/Admin/sidebar.html' with data=cnav %}
+<div class="page-wrapper">
+    <div class="right-wrapper">
+        <main class="main">
+            <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="db_card_div">
+                        <div class="db_card_icon_div db_card_icon_div_green">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div class="db_card_data_text">{{auc}}</div>
+                        <div class="db_card_title_text">Active Users</div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="db_card_div">
+                        <div class="db_card_icon_div db_card_icon_div_red">
+                            <i class="fa fa-store-alt"></i>
+                        </div>
+                        <div class="db_card_data_text">{{acc}}</div>
+                        <div class="db_card_title_text">Active Companies</div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="db_card_div">
+                        <div class="db_card_icon_div db_card_icon_div_yellow">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <div class="db_card_data_text">{{tuc}}</div>
+                        <div class="db_card_title_text">Total Users</div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="db_card_div">
+                        <div class="db_card_icon_div db_card_icon_div_blue">
+                            <i class="fa fa-building"></i>
+                        </div>
+                        <div class="db_card_data_text">{{tcc}}</div>
+                        <div class="db_card_title_text">Total Companies</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-7 col-lg-8 col-xl-8">
+                    <div class="server-details-div">
+                        <p class="server-details-div-header">NETWORK STATUS</p>
+                        <div class="row">
+                            <div class="col">Total data received: {{tbr}}</div>
+                            <div class="col">Total data sent: {{tbs}}</div>
+                        </div>
+                        <canvas id="chart" style="border:none"></canvas>
+                    </div>
+                </div>
+                <div class="col-12 col-md-5 col-lg-4 col-xl-4">
+                    <div class="server-details-div">
+                        <p class="server-details-div-header">SERVER STATUS</p>
+                        <div class="server-details-body">
+                            <div style="border-bottom: 1px dotted #c5c5c5;margin-bottom: 5px;">CPU Information ({{cpcc}} Physical core)</div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>Current frequency : </div>
+                                <div>{{cf.current}} Mhz</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>Min frequency : </div>
+                                <div>{{cf.min}} Mhz</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>Min frequency : </div>
+                                <div>{{cf.max}} Mhz</div>
+                            </div>
+                            <div style="margin-bottom: 5px; margin-top: 10px;">CPU Usage ({{cu}}%)</div>
+                            <div class="progress" style="height: 5px;">
+                                <div class="progress-bar" role="progressbar" style="width: {{cu}}%">
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 5px; margin-top: 10px;">Memory Usage ({{tum}}/{{tvm}})</div>
+                            <div class="progress" style="height: 5px;">
+                                <div class="progress-bar" role="progressbar" style="width: {{tvmp}}%; background:#09af90;">
+                                </div>
+                            </div>
+                            <div style="border-bottom: 1px dotted #c5c5c5;margin-top: 10px;">Disk Information</div>
+                            {%for data in dil%}
+                                <div style="margin-bottom: 5px; margin-top: 10px;">{{data.drive}} {{data.used}}/{{data.total}}</div>
+                                <div class="progress" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" style="width: {{data.percent}}%; background:#a3c538;">
+                                    </div>
+                                </div>
+                            {%endfor%}
+                        </div>
+                    </div>   
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+{%endblock%}
+
+{%block js%}
+{%endblock%}

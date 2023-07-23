@@ -1,0 +1,84 @@
+{% extends "Common/Website/base.html" %}
+{% load static %}
+
+{%block style%}
+<link rel="stylesheet" href="{% static 'website/css/wpplan.css' %}">
+{%endblock%}
+
+{%block content%}
+<div class="container-md mt-5" style="min-height: 450px;">
+    <div class="special__title">Simplify Your Wedding Planning Journey</div>
+    <div class="row pt-5">
+        <div class="col-2">
+            <a class="inactive__link" href="{%url 'WeddingPlanChecklist' %}">Checklist</a>
+            <a class="inactive__link" href="{%url 'WeddingPlanNote' %}">Notes</a>
+            <div class="active__title">Directory</div>
+        </div>
+        <div class="col-8">
+            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#dModal">Add</button>
+            <div class="mt-3">
+                {%for k, v in data.items %}
+                <div class="d__service__title">{{k}}</div>
+                <div class="d-flex" style="gap: 10px; padding: 10px 0px;">
+                    {%for i in v %}
+                    <div style="background: #f8f8f8;padding: 10px;">
+                        <div style="color: var(--bo-primary);font-weight: 600;font-size: 0.8rem;">Seller Information</div>
+                        <div>{{i.seller_info |safe}}</div>
+                        <div style="color: var(--bo-primary);font-weight: 600;font-size: 0.8rem;">Remarks</div>
+                        <div>{{i.remarks}}</div>
+                    </div>
+                    {%endfor%}
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="dModal" tabindex="-1" aria-labelledby="dModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <select id="service" class="form-control">
+                    <option value="">Select a service</option>
+                    {%for s in services %}
+                    <option value="{{s.id}}">{{s.title}}</option>
+                    {%endfor%}
+                </select>
+                <textarea id="seller" rows="8" placeholder="Seller contact info" class="form-control"></textarea>
+                <textarea id="remarks" rows="8" placeholder="Your personal notes" class="form-control"></textarea>
+                <div class="text-center mt-2">
+                    <button type="button" class="btn btn-sm btn-primary" id="addd" data-bs-dismiss="modal">Add Note</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
+
+{%block js%}
+<script>
+$(document).ready(function(){
+    $('#addd').click(function(){
+        service = $("#service").val();
+        seller = $('#seller').val();
+        remarks = $('#remarks').val();
+        $.ajax({
+            url: '{%url "AddWeddingPlanDirectory" %}',
+            data: {
+                'service': service,
+                'seller': seller,
+                'remarks': remarks
+            },
+            success: function(data) {
+                if(data["success"] == true) {
+                    location.reload();
+                }
+            }
+        });
+    });
+});
+</script>
+{%endblock%}

@@ -1,0 +1,227 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{%static 'admin-panel/css/style.min.css'%}" />
+    <script src="{%static 'admin-panel/js/jquery.min.js'%}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="{%static 'admin-panel/css/icons/font-awesome/css/fontawesome-all.min.css' %}">
+
+    <title>Login</title>
+  </head>
+    <style>
+      .s-outer-div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+    }
+    .wrap {
+        width: 100%;
+        border-radius: 5px;
+        box-shadow: 2px 2px 10px 2px rgb(113 113 113 / 24%);
+      }
+    .s-text-div {
+      background: #0c1222;
+      color: #fff;
+      min-height: 380px;
+    }
+    .s-login-div {
+      position: relative;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .s-text-div, .s-login-div {
+      width: 50%;
+    }
+    .form-group {
+      position: relative;
+    }
+    .form-group .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #000;
+      font-weight: 700;
+    }
+    label {
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+    button, input {
+      overflow: visible;
+    }
+    input, button, select, optgroup, textarea {
+      margin: 0;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+    }
+    .form-control {
+      display: block;
+      width: 100%;
+      height: 48px;
+      font-weight: 400;
+      line-height: 1.5;
+      background: rgba(0, 0, 0, 0.05);
+      color: #000;
+      font-size: 16px;
+      border-radius: 5px;
+      box-shadow: none;
+      border: 1px solid transparent;
+      padding: 0 20px;
+      transition: all 0.2s ease-in-out;
+    }
+    .btn.btn-primary {
+      border: 1px solid #068ee2;
+      color: #fff;
+      background: linear-gradient(135deg, #0abaec 0%, #0155d5 100%);
+    }
+    .btn.btn-primary:hover {
+      border: 1px solid #f35588;
+      background: #000;
+      color: #fff;
+    }
+    .login-page-banner {
+      width: 75%;
+      margin-bottom: 25px;
+    }
+    .toggle-btn {
+      all: unset;
+      background: #e8f0fe;
+      padding: 0 10px;
+    }
+    @media (max-width: 767px) {
+      .s-text-div, .s-login-div {
+        width: 100%;
+        min-height: auto;
+      }
+      .login-page-banner {
+        width: 50%;
+      }
+    }
+    </style>
+  <body>
+    <section class="s-outer-div">
+
+      {%if messages%}
+            {%for message in messages%}
+            <script type="text/javascript">
+                toastr["{{message.tags}}"]("{{message}}", "{{message.tags|upper}}");
+            </script>
+            {%endfor%}
+        {%endif%}
+
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-11 col-sm-10 col-lg-8">
+              <div class="wrap d-sm-flex">
+                <div class="s-text-div p-4 p-lg-5 text-center d-flex align-items-center order-md-first">
+                  <div class="text w-100">
+                    <img src="{% static 'admin-panel/images/bologo.png' %}" alt="IMG" class="login-page-banner">
+                    <p>Welcome back,</br>
+                      Please sign in to your account.</p>
+                  </div>
+                </div>
+                <div class="s-login-div p-3 p-lg-5">
+                  <form class="form-horizontal mt-3" id="loginform" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span
+                              class="input-group-text bg-success text-white h-100"
+                              id="basic-addon1"
+                              ><i class="fa fa-user" aria-hidden="true"></i></span>
+                          </div>
+                          <input
+                            type="text"
+                            class="form-control form-control-lg"
+                            placeholder="Username"
+                            aria-label="Username"
+                            aria-describedby="basic-addon1"
+                            required=""
+                            name="username"
+                          />
+                        </div>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span
+                              class="input-group-text bg-warning text-white h-100"
+                              id="basic-addon2"
+                              ><i class="fas fa-lock"></i>
+                            </span>
+                          </div>
+                          <input
+                            type="password"
+                            class="form-control form-control-lg"
+                            placeholder="Password"
+                            aria-label="Password"
+                            aria-describedby="basic-addon1"
+                            required=""
+                            id="password"
+                            name="password"
+                          />
+                          <button
+                            type="button"
+                            onclick="toggleVisibility()"
+                            class="toggle-btn"
+                          >
+                            <i class="fas fa-eye"></i>
+                          </button>
+                          <input type="hidden" value="{{next}}" name="rurl" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row border-secondary">
+                      <div class="col-12">
+                        <div class="form-group">
+                          {% comment %}<button
+                            class="btn btn-outline-success"
+                            id="to-recover"
+                            type="button"
+                            disabled
+                          >
+                          <i class="fas fa-lock"></i> Lost
+                            password?
+                          </button>{% endcomment %}
+                          <button
+                            class="btn btn-success float-end text-white"
+                            type="submit"
+                          >
+                          <i class="fa fa-sign-in" aria-hidden="true"></i>
+                            Login
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <script>
+      $('.preloader').fadeOut();
+      function toggleVisibility() {
+        var x = document.getElementById('password');
+        if (x.type === 'password') {
+          x.type = 'text';
+        } else {
+          x.type = 'password';
+        }
+      }
+    </script>
+  </body>
+</html>

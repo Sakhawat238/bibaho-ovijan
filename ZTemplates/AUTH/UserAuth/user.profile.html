@@ -1,0 +1,169 @@
+{% extends "Common/Admin/base.html" %}
+{%load static%}
+{%block title%}
+<title>My Profile</title>
+{%endblock title%}
+{%block style%}
+{%endblock%}
+{%block content%}
+{%if messages%}
+    {%for message in messages%}
+    <script type="text/javascript">
+      toastr["{{message.tags}}"]("{{message}}", "{{message.tags|upper}}");
+    </script>
+    {%endfor%}
+{%endif%}
+<div class="app-body">
+  <main class="main">
+    <form method="POST" enctype='multipart/form-data'>
+        {% csrf_token %}
+    <div class="container rounded bg-white">
+        <div class="row">
+            <div class="d-flex justify-content-center align-items-center my-3">
+                <h4 class="text-right">Profile</h4>
+            </div>
+            <div class="col-md-2 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3">
+                    <div style="position: relative;">
+                        <!-- <img class="rounded-circle" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"> -->
+                        <img id="main-profile" class="rounded-circle" width="150px" src="{{extended_user.picture.url}}">
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#profileImageUploadModal" class="btn-primary">Upload Profile Picture</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-5 border-right">
+                <div class="p-3">
+                    <!-- <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Profile Settings</h4>
+                    </div> -->
+                        <div class="col-md-12"><label class="labels">First Name</label><input disabled value="{{extended_user.user.first_name}}" type="text" class="form-control" placeholder="first name"></div>
+                        <!-- <div class="col-md-12"><label class="labels">Last Name</label><input type="text" class="form-control" placeholder="first name" value=""></div> -->
+                        <div class="col-md-12"><label class="labels">Username</label><input value="{{extended_user.user.username}}" disabled type="text" class="form-control" placeholder="Enter first name"></div>
+                        <div class="col-md-12"><label class="labels">Email Address</label><input value="{{extended_user.user.email}}" disabled type="text" class="form-control" placeholder="Enter email address"></div>
+                        <div class="col-md-12"><label class="labels">Mobile Number</label><input value="{{extended_user.mobile}}" disabled type="text" class="form-control" placeholder="enter phone number"></div>
+                    </div>
+            </div>
+
+            <div class="col-md-5 border-right">
+                <div class="p-3">
+                    <!-- <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Profile Settings</h4>
+                    </div> -->
+                    <div class="col-md-12">
+                        <label class="labels">Current Password</label>
+                        <input name="current_password" type="password" class="form-control" placeholder="Enter current password">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">New Password</label>
+                        <input name="new_password" type="password" class="form-control" placeholder="Enter new password">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">Confirm New Password</label>
+                        <input name="confirm_new_password" type="password" class="form-control" placeholder="Confirm new password">
+                    </div>
+                    <div class="mt-3"><button type="submit" class="btn btn-primary profile-button" type="button">Update Profile</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+  </main>
+</form>
+
+
+
+
+<div class="modal fade" id="profileImageUploadModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #28b77994;">
+          <h5 class="modal-title" id="exampleModalLabel">Upload profile image</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="profile_photo_form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+        <div class="modal-body">
+            <div style="border: 1px solid #ccc; border-radius: 5px;" >
+                <div class="card-body">
+                    <div class="mb-3">
+                        <input required accept="image/png, image/gif, image/jpeg"  class="form-control form-control-sm" name="profile-photo" id="profile-photo" onchange="previewFile(this);" type="file">
+                        <input name="user_id" value="{{extended_user.user.id}}" type="hidden">
+                        <div>
+                            <p id="profile-photo-error" style="display:none; color:red"></p>
+                          </div>
+                        <div class="image-preview-container">
+                            <img class="rounded-circle" width="150px" id="previewImg">
+                        </div>
+                      </div>
+                      <div class="mt-3 text-end"><button type="submit" class="btn btn-primary profile-button" type="button">Upload Profile Image</button></div>
+                  </div>
+              </div>
+        </div>
+    </form>
+      </div>
+    </div>
+
+    <div id="loading_spinner" class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    
+</div>
+</div>
+{%endblock%}
+
+{%block js%}
+<script>
+
+$(document).ready(function () {
+    $('#loading_spinner').hide()
+});
+
+function previewFile(input){
+    var file = $("input[type=file]").get(0).files[0];
+
+    if(file){
+        var reader = new FileReader();
+
+        reader.onload = function(){
+            $("#previewImg").attr("src", reader.result);
+        }
+
+        reader.readAsDataURL(file);
+    }
+}
+
+$("#profile_photo_form").submit(function (e) {
+    e.preventDefault()
+    const formData = new FormData($("#profile_photo_form")[0]);
+    $.ajax({
+      url: "{% url 'profile_photo_upload' %}",
+      type: "POST",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      beforeSend: function () {
+        $('#loading_spinner').show()
+        $('#opacity_block').addClass('opacity_block')
+      },
+      success: function (data) {
+        if (data.error) {
+          $("#profile-photo-error").html(data.error).show()
+          $('#loading_spinner').hide()
+          $('#opacity_block').removeClass('opacity_block')
+        } else {
+            // success
+            $('#loading_spinner').hide() 
+            alert('Successfully profile photo updated!')
+            document.getElementById('main-profile').src = data['src']
+        }
+      }
+    })
+  });
+</script>
+{%endblock%}

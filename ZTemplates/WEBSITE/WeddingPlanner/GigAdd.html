@@ -1,0 +1,365 @@
+{% extends "Common/Website/base.html" %}
+{% load static %}
+
+{%block style%}
+<link rel="stylesheet" href="{% static 'website/css/wpgigadd.css' %}">
+<script src="https://cdn.ckeditor.com/ckeditor5/38.1.0/classic/ckeditor.js"></script>
+{%endblock%}
+
+{%block content%}
+<div class="container-md my-5">
+    <form method="post" autocomplete="off" enctype="multipart/form-data">
+        {%csrf_token%}
+        <ul class="nav nav-tabs justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" href="#step1">Overview</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#step2">Package</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#step3">Gallary</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#step4">Faq</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#step5">Preview and Save</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane container active pt-4" id="step1">
+                <div class="row mb-3">
+                    <div class="col-3 text-end">
+                        <label for="title" class="form-label fw-bold">Title :</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="form-control" maxlength="200" id="title" name="title" required />
+                    </div>
+                    <div class="col-3">
+                        <span id="passwordHelpInline" class="form-text">
+                            Recommended 100-120 characters
+                        </span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-3 text-end">
+                        <label for="service" class="form-label fw-bold">Service :</label>
+                    </div>
+                    <div class="col-6">
+                        <select class="form-control" id="service" name="service" required>
+                            <option value="">--------------</option>
+                            {%for s in services %}
+                            <option value="{{s.id}}">{{s.title}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <span id="passwordHelpInline" class="form-text">
+                            What type of service you are offering
+                        </span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-3 text-end">
+                        <label for="location" class="form-label fw-bold">Location :</label>
+                    </div>
+                    <div class="col-6">
+                        <select class="form-control" id="location" name="location" required>
+                            <option value="0">Anywhere in Bangladesh</option>
+                            <option value="Dhaka">Dhaka</option>
+                            <option value="Chattogram">Chattogram</option>
+                            <option value="Sylhet">Sylhet</option>
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <span id="passwordHelpInline" class="form-text">
+                            Where you can provide your service
+                        </span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-3 text-end">
+                        <label for="details" class="form-label fw-bold">Description :</label>
+                    </div>
+                    <div class="col-6">
+                        <textarea class="form-control" maxlength="1000" id="details" rows="6" name="details" required></textarea>
+                        <div id="the-count">
+                            <span id="current">0</span>
+                            <span>/ 1000</span>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <span id="passwordHelpInline" class="form-text">
+                            Write an appealing description of the service you are offering to attract more customers.
+                        </span>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <a class="btn btn-sm btn-warning btnNext">Next >></a>
+                </div>
+            </div>
+            <div class="tab-pane container pt-4 fade" id="step2">
+                <div class="row">
+                    <div class="col-3 basic_package_div" style="min-height: 500px;">
+                        <div class="basic_package_div__title">Basic</div>
+                        <div class="package_div__inner">
+                            <label for="basic_desc" class="form-label fw-bold ps-2">Description</label>
+                            <textarea name="basic_desc" id="basic_desc"></textarea>
+                            <label for="basic_price" class="form-label fw-bold ps-2 pt-2">Price</label>
+                            <input type="text" name="basic_price" id="basic_price" class="form-control form-control-sm" />
+                            <input class="form-check-input" type="checkbox" value="1" name="basic_price_show" id="basic_price_show">
+                            <label class="form-check-label" for="basic_price_show">Show Price</label>
+                        </div>
+                    </div>
+                    <div class="col-3 standard_package_div">
+                        <div class="standard_package_div__title">Standard</div>
+                        <div class="package_div__inner">
+                            <label for="standard_desc" class="form-label fw-bold ps-2">Description</label>
+                            <textarea name="standard_desc" id="standard_desc"></textarea>
+                            <label for="standard_price" class="form-label fw-bold ps-2 pt-2">Price</label>
+                            <input type="text" name="standard_price" id="standard_price" class="form-control form-control-sm" />
+                            <input class="form-check-input" type="checkbox" value="1" name="standard_price_show" id="standard_price_show">
+                            <label class="form-check-label" for="standard_price_show">Show Price</label>
+                        </div>
+                    </div>
+                    <div class="col-3 premium_package_div">
+                        <div class="premium_package_div__title">Premium</div>
+                        <div class="package_div__inner">
+                            <label for="premium_desc" class="form-label fw-bold ps-2">Description</label>
+                            <textarea name="premium_desc" id="premium_desc"></textarea>
+                            <label for="premium_price" class="form-label fw-bold ps-2 pt-2">Price</label>
+                            <input type="text" name="premium_price" id="premium_price" class="form-control form-control-sm" />
+                            <input class="form-check-input" type="checkbox" value="1" name="premium_price_show" id="premium_price_show">
+                            <label class="form-check-label" for="premium_price_show">Show Price</label>
+                        </div>
+                    </div>
+                    <div class="col-3 custom_package_div">
+                        <div class="custom_package_div__title">Custom</div>
+                        <div class="package_div__inner">
+                            <label for="custom_desc" class="form-label fw-bold ps-2">Description</label>
+                            <textarea name="custom_desc" id="custom_desc"></textarea>
+                            <label for="custom_price" class="form-label fw-bold ps-2 pt-2">Price</label>
+                            <input type="text" name="custom_price" id="custom_price" class="form-control form-control-sm" />
+                            <input class="form-check-input" type="checkbox" value="1" name="custom_price_show" id="custom_price_show">
+                            <label class="form-check-label" for="custom_price_show">Show Price</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <a class="btn btn-sm btn-secondary me-2 btnPrevious"><< Back</a>
+                    <a class="btn btn-sm btn-warning btnNext">Next >></a>
+                </div>
+            </div>
+            <div class="tab-pane container fade" id="step3">
+                <div class="form-group row mx-0 mt-5">
+                    <div style="margin: 10px;">
+                        <img id="prevw_img" src="" width="200px">
+                    </div>
+                    <label class="col-12 col-md-3 col-lg-3 col-xl-3 col-form-label font-weight-bold image_size'" for="thumbnail">Thumbnail Image:</label>
+                    <input style="all: unset;" type="file" accept="image/*" class="form-control form-control-sm col-12 col-md-9 col-lg-9 col-xl-9" name="thumbnail" id="thumbnail">
+                    <p>File size should be less than 50 kB(500 x 500)</p>
+                    <div class="mt-4">You can add two additional images.</div>
+                    <div style="margin-bottom: 10px">
+                        <div id="img_div">
+                        </div>
+                        <button id="add_img" class="btn btn-sm btn-primary" type="button">
+                            <i class="fa fa-plus-square"></i> Add More Images
+                        </button>
+                    </div>
+                    <input type="hidden" name="total_img" />
+                </div>
+                <div class="text-center mt-4">
+                    <a class="btn btn-sm btn-secondary me-2 btnPrevious"><< Back</a>
+                    <a class="btn btn-sm btn-warning btnNext">Next >></a>
+                </div>
+            </div>
+            <div class="tab-pane container fade pt-5" id="step4">
+                <p>
+                    You can add custom questions and answers so that your customer can have a better idea
+                    about what type of service you are offering. Please add at least one.
+                </p>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="question1" id="question1" placeholder="Question: How long have you been in this field?" required>
+                    <input type="text" class="form-control" name="answer1" id="answer1" placeholder="Answer: I am a professional photographer with 5 years+ experience" required>
+                </div>
+                <div id="more-faq-div"></div>
+                <button type="button" class="btn btn-info" id="addmorefaq">Add More</button>
+                <input type="hidden" name="total_faq" />
+                <div class="text-center mt-4">
+                    <a class="btn btn-sm btn-secondary me-2 btnPrevious"><< Back</a>
+                    <a class="btn btn-sm btn-warning btnNext">Next >></a>
+                </div>
+            </div>
+            <div class="tab-pane container fade text-center" id="step5">
+                <h5>There is no preview !. Just hit the submit button. Hurry up!!</h5>
+                <button class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+{%endblock%}
+
+{%block js%}
+<script>
+function updateCurrentDetailsCharCount() {
+    var characterCount = $('#details').val().length;
+    current = $('#current');
+    current.text(characterCount);
+}
+$(document).ready(function(){
+    $('.btnNext').click(function() {
+        const nextTabLinkEl = $('.nav-tabs .active').closest('li').next('li').find('a')[0];
+        const nextTab = new bootstrap.Tab(nextTabLinkEl);
+        nextTab.show();
+    });
+
+    $('.btnPrevious').click(function() {
+        const prevTabLinkEl = $('.nav-tabs .active').closest('li').prev('li').find('a')[0];
+        const prevTab = new bootstrap.Tab(prevTabLinkEl);
+        prevTab.show();
+    });
+});
+$('#details').keyup(updateCurrentDetailsCharCount);
+</script>
+<script>
+    ClassicEditor.create(document.querySelector('#basic_desc'),{
+        toolbar: {
+            items: [
+                'bold', 'italic', '|',
+                'bulletedList', 'numberedList',  '|',
+                'undo', 'redo'
+            ],
+            shouldNotGroupWhenFull: true
+        },
+    }).catch( error => {
+        console.error( error );
+    });
+    ClassicEditor.create(document.querySelector('#standard_desc'),{
+        toolbar: {
+            items: [
+                'bold', 'italic', '|',
+                'bulletedList', 'numberedList',  '|',
+                'undo', 'redo'
+            ],
+            shouldNotGroupWhenFull: true
+        },
+    }).catch( error => {
+        console.error( error );
+    });
+    ClassicEditor.create(document.querySelector('#premium_desc'),{
+        toolbar: {
+            items: [
+                'bold', 'italic', '|',
+                'bulletedList', 'numberedList',  '|',
+                'undo', 'redo'
+            ],
+            shouldNotGroupWhenFull: true
+        },
+    }).catch( error => {
+        console.error( error );
+    });
+    ClassicEditor.create(document.querySelector('#custom_desc'),{
+        toolbar: {
+            items: [
+                'bold', 'italic', '|',
+                'bulletedList', 'numberedList',  '|',
+                'undo', 'redo'
+            ],
+            shouldNotGroupWhenFull: true
+        },
+    }).catch( error => {
+        console.error( error );
+    });
+</script>
+<script>
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#prevw_img').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function readURL_details(input, id) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#prevw_img_' + id).attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function load_preview(id) {
+    $("#img_name_" + id).change(function () {
+        readURL_details(this, id);
+    });
+}
+
+$("#thumbnail").change(function () {
+    readURL(this);
+});
+var img_ids = [];
+var faq_ids = [1];
+img_i = 0;
+faq_i = 1;
+function deleteIMG(id) {
+    $('.img_' + id).remove();
+    var index = img_ids.indexOf(id);
+    img_ids.splice(index, 1);
+    $("[name=total_img]").val(img_ids);
+}
+function deleteFAQ(id) {
+    $('#singleqadiv' + id).remove();
+    var index = faq_ids.indexOf(id);
+    faq_ids.splice(index, 1);
+    $("[name=total_faq]").val(faq_ids);
+}
+$(document).ready(function () {
+    $("[name=total_faq]").val(faq_ids);
+    $("#add_img").click(function (e) {
+        img_i++;
+        if(img_ids.length < 2) {
+            $("#img_div").append('\
+            <div class="img_'+ img_i + '">\
+                <div class="form-group row" style="margin-left:0;margin-right:0;">\
+                <label for="img_name_'+ img_i + '">Upload Image:</label>\
+                <input type="file" accept="image/*" name="img_name_'+ img_i + '" id="img_name_' + img_i + '">\
+                <div style="margin: 10px;">\
+                    <img id="prevw_img_'+ img_i + '" src="" width="200px">\
+                </div>\
+                <div style="margin: 10px">\
+                    <button type="button" class="btn btn-sm btn-danger" onclick="deleteIMG(' + img_i + ')">\
+                    <i class="fa fa-minus-square"></i> Delete\
+                    </button>\
+                </div>\
+                </div>\
+            </div>\
+            ')
+            img_ids.push(img_i);
+            $("[name=total_img]").val(img_ids);
+            load_preview(img_i);
+        }
+    });
+    $("#addmorefaq").click(function(){
+        faq_i++;
+        $('#more-faq-div').append('<div class="mb-3" id="singleqadiv'+faq_i+'">\
+                <input type="text" class="form-control" name="question'+faq_i+'" id="question'+faq_i+'" placeholder="Question" required>\
+                <input type="text" class="form-control" name="answer'+faq_i+'" id="answer'+faq_i+'" placeholder="Answer" required>\
+                <div style="text-align:right">\
+                    <button type="button" class="btn btn-sm btn-danger" onclick="deleteFAQ('+faq_i+')">\
+                    <i class="fa fa-minus-square"></i> Delete\
+                    </button>\
+                </div>\
+            </div>'
+        );
+        faq_ids.push(faq_i);
+        $("[name=total_faq]").val(faq_ids);
+    });
+});
+</script>
+{%endblock%}
+

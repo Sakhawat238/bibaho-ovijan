@@ -1,0 +1,135 @@
+{% extends "Common/Admin/base.html" %}
+{%block title%}
+<title>Task Management</title>
+{%endblock title%}
+
+{%block style%}
+<style>
+    input[type=checkbox][checked] {
+        outline: 1px solid white;
+    }
+</style>
+{%endblock%}
+
+{%block content%}
+{% include 'Common/Admin/sidebar.html' with data=cnav %}
+<div class="app-body mt-0 page-wrapper">
+    <main class="main p-0">
+        <div class="page_header"><span >Task Management</span></div>
+        {%if messages%}
+        {%for message in messages%}
+        <script type="text/javascript">
+            toastr["{{message.tags}}"]("{{message}}", "{{message.tags|upper}}");
+        </script>
+        {%endfor%}
+        {%endif%}
+        <div class="main_wrapper">
+            <div style="display: flex;">
+                {%if privilege and privilege.add_task%}
+                <a class="btn btn-primary btn-sm" href="{%url 'TaskCreate' %}">
+                    <i class="fas fa-plus-circle"></i> Add Task
+                </a>
+                {%endif%}
+                <div style="width: 10px;"></div>
+                <a class="btn btn-success btn-sm" href="{%url 'TaskManagement' %}">
+                    <i class="fas fa-sync-alt"></i> Reload
+                </a>
+            </div>
+            <div class="table-responsive-sm">
+                <table class="table table-striped table-sm bg-white mt-3">
+                    <thead>
+                    <tr>
+                        <th style="text-align: center">#</th>
+                        <th>Task</th>
+                        <th>Module</th>
+                        <th>Order</th>
+                        <th>View</th>
+                        <th>Add</th>
+                        <th>Save</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        <th>Print</th>
+                        <th>Cancel</th>
+                        <th>Reset</th>
+                        <th>Find</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for tsk in Tsks %}
+                    <tr>
+                        <td style="text-align: center">{{forloop.counter0|add:Tsks.start_index}}</td>
+                        <td>{{tsk.name}}</td>
+                        <td>{{tsk.module}}</td>
+                        <td>{{tsk.order}}</td>
+                        {%if tsk.view_task %}
+                        <td>&#x2714;</td>
+                        {%else%}
+                        <td>&#x2718;</td>
+                        {%endif%}
+                        {%if tsk.add_task %}
+                        <td>&#x2714;</td>
+                        {%else%}
+                        <td>&#x2718;</td>
+                        {%endif%}
+                        {%if tsk.save_task%}
+                        <td>&#x2714;</td>
+                        {%else%}
+                        <td>&#x2718;</td>
+                        {%endif%}
+                        {%if tsk.edit_task%}
+                        <td>&#x2714;</td>
+                        {%else%}
+                        <td>&#x2718;</td>
+                        {%endif%}
+                        {%if tsk.delete_task%}
+                        <td>&#x2714;</td>
+                        {%else%}
+                        <td>&#x2718;</td>
+                        {%endif%}
+                        {%if tsk.print_task%}
+                        <td>&#x2714;</td>
+                        {%else%}
+                        <td>&#x2718;</td>
+                        {%endif%}
+                        {%if tsk.cancel_task%}
+                        <td>&#x2714;</td>
+                        {%else%}
+                        <td>&#x2718;</td>
+                        {%endif%}
+                        {%if tsk.reset_task%}
+                        <td>&#x2714;</td>
+                        {%else%}
+                        <td>&#x2718;</td>
+                        {%endif%}
+                        {%if tsk.find_task%}
+                        <td>&#x2714;</td>
+                        {%else%}
+                        <td>&#x2718;</td>
+                        {%endif%}
+                        <td>
+                            {%if privilege and privilege.view_task%}
+                            <a class="btn btn-sm btn-primary me-1" href="{%url 'TaskView' tsk.id %}">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            {%endif%}
+                            {%if privilege and privilege.edit_task%}
+                            <a class="btn btn-sm btn-warning" href="{%url 'TaskEdit' tsk.id %}">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            {%endif%}
+                        </td>
+                    </tr>
+                    {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+            {% include 'Common/Admin/pagination.html' with data=Tsks request=request %}
+        </div>
+    </main>
+</div>
+{%endblock%}
+
+{%block js%}
+
+{%endblock%}

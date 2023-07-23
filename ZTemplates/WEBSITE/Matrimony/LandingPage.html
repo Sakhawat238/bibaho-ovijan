@@ -1,0 +1,520 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibaho Ovijan (বিবাহ অভিযান)</title>
+    <link rel="shortcut icon" href="{% static 'website/images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'website/css/style.min.css' %}">
+    <link rel="stylesheet" href="{% static 'website/css/common.min.css' %}">
+    <link rel="stylesheet" href="{% static 'website/css/matrimonylandingpage.css' %}">
+    <script src="{%static 'website/js/jquery.min.js' %}"></script>
+</head>
+<body>
+    <div class="container-md py-3 d-flex justify-content-between" id="register-now">
+        <a href="{% url 'LandingPage' %}"><img src="{% static 'website/images/bologo.png' %}" alt="bibahovijanlogo" class="nav__site_logo" /></a>
+        <div>
+            <a class="btn d-none d-lg-inline-block d-xl-inline-block" href="#">About Us</a>
+            <a class="btn d-none d-lg-inline-block d-xl-inline-block" href="#">FAQ</a>
+            <a class="btn nav__login_btn" href="#" >Login</a>
+        </div>
+    </div>
+
+    <div class="container-fluid hero_section__outer_container">
+        <div class="container-md">
+            <div class="row py-5">
+                <div class="col-12 col-lg-6 col-xl-6 d-flex" style="align-items: center;position: relative">
+                    <p class="hero_section__title">
+                        Your Journey to Happily Ever After Starts Here
+                    </p>
+                </div>
+                <div class="col-12 col-lg-6 col-xl-6 d-flex justify-content-center">
+                    <form method="post" autocomplete="off" class="hero_section__registration_form">
+                        {%csrf_token%}
+                        <div class="mb-3">
+                            <label for="fullname" class="form-label">Full Name</label>
+                            <input type="text" class="form-control form-control-sm" id="fullname" name="fullname" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control form-control-sm" id="email" name="email" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mobile" class="form-label">Mobile No <span id="mobile_warning" class="text-center mt-2" style="color: red;"></span></label>
+                            <input type="mobile" class="form-control form-control-sm" pattern="01[3-9]{1}[0-9]{8}" id="mobile" name="mobile" required/>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control form-control-sm" id="password" name="password" required/>
+                        </div>
+                        <div id="send_otp">
+                            <button type="button" class="btn register__initial_btn" onclick="register()" data-bs-toggle="modal" data-bs-target="#exampleModal">Register</button>
+                            <!-- <button type="button" class="btn register__initial_btn" onclick="register()">Register</button> -->
+                        </div>
+                        <!-- <div style="display: none">
+                            <button id="submit" type="submit">Submit</button>
+                        </div> -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-md pt-2 pt-lg-5 pt-xl-5 text-center">
+        <p class="m-0 flow_section__tagline_1">4 easy steps to</p>
+        <h4 style="font-weight: 600;">Find your perfect match, for a lifetime of love and happiness.</h4>
+        <div class="flow_sectioon__main_container">
+            <div class="flow_section__card_container">
+                <img src="{% static 'website/images/sign_up.svg' %}" alt="sign_up" style="width: 170px;"/>
+                <p class="flow_section__card_title">Sign Up</p>
+                <p>Register for free with minimal information.</p>
+            </div>
+            <div class="flow_section__card_container">
+                <img src="{% static 'website/images/biodata_create.svg' %}" alt="create_biodata" style="width: 115px;"/>
+                <p class="flow_section__card_title">Create Biodata</p>
+                <p>Easily create your profile with our biodata builder.</p>
+            </div>
+            <div class="flow_section__card_container">
+                <img src="{% static 'website/images/browse_profile.svg' %}" alt="browse_profile" style="width: 170px;"/>
+                <p class="flow_section__card_title">Browse Profiles</p>
+                <p>Search thousands of verified profiles according to your preferences.</p>
+            </div>
+            <div class="flow_section__card_container">
+                <img src="{% static 'website/images/connect_interact.svg' %}" alt="connect_interact" style="width: 155px;"/>
+                <p class="flow_section__card_title">Connect & Interact</p>
+                <p>Find desired soulmate, communicate and proceed accordingly.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-md mt-5 pt-5">
+        <div class="row">
+            <div class="col-12 col-lg-7 col-xl-7 p-3" style="background-color: #f8f8f8;">
+                <h4 style="font-weight: 600;">What makes us special</h4>
+                <p>
+                    Welcome to Bibahoovijan, the premier online platform for finding your ideal life partner in Bangladesh. 
+                    We understand the significance of marriage in Bengali culture and are dedicated to helping you discover 
+                    lifelong happiness through meaningful connections.
+                </p>
+                <p>
+                    At Bibahoovijan, we believe that finding a life partner should be a joyful and empowering 
+                    experience. Our user-friendly interface and advanced matching algorithms make it easier than ever 
+                    to search, connect, and communicate with like-minded individuals who share your values, aspirations, 
+                    and cultural background.
+                </p>
+
+                <ul class="about_us__list">
+                    <li><span>Authentic Profiles:</span> We prioritize the authenticity of profiles on our platform. 
+                        Our rigorous verification process ensures that you are interacting with genuine 
+                        individuals who are equally committed to finding a compatible partner.
+                    </li>
+                    <li><span>Privacy and Security:</span> We understand the importance of privacy when it comes to matters of the heart. 
+                        Your personal information is kept secure and confidential, allowing you to explore your options 
+                        without worry.
+                    </li>
+                    <li><span>Extensive Database:</span> Our vast user database consists of eligible singles from various backgrounds, 
+                        professions, and communities across Bangladesh. With thousands of profiles to explore, 
+                        you have a higher chance of finding your perfect match.
+                    </li>
+                    <li><span>Advanced Search Options:</span> Our intelligent search filters allow you to narrow down your search 
+                        based on specific criteria such as age, education, profession, religion, and more. 
+                        This streamlines the process and helps you discover profiles that align with your preferences.
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12 col-lg-5 col-xl-5">
+                <img src="{% static 'website/images/mehndi.jpg' %}" alt="wedding" style="width: 100%; height: 100%;" />
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid special_offer__container">
+        Embark on a remarkable voyage towards finding your life partner. 
+        <a href="#register-now" class="special_offer__link">Register Now</a>
+    </div>
+
+    <div class="container-md">
+        <div class="success_stories__title_container">
+            <h4 style="font-weight: bold;">Thousands of success stories</h4>
+            <p>
+                We take pride in the numerous success stories that have emerged from our platform. 
+                Many couples have found love and companionship through Bibahoovijan, and 
+                we are excited to be a part of their journey.
+            </p>
+        </div>
+        <div id="successStoriesCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#successStoriesCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#successStoriesCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#successStoriesCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+
+                {% for ss in success_stories %}
+                <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                    <div class="success_stories__card_container">
+                        {% for s in ss %}
+                        <div class="success_stories__card">
+                            <img src="{% static 'website/images/wp01.png' %}" alt="weddingphoto" class="success_stories__card__img"/>
+                            <div class="success_stories__card__title">{{ s.couple }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+
+
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#successStoriesCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#successStoriesCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <p class="success_stories__offer_title">Write you own story with our platform.</p>
+        <div class="text-center">
+            <a class="success_stories__offer_link" href="#register-now">Get Started</a>
+        </div>
+    </div>
+
+    <div class="container-fluid faq__container">
+        <div class="container-md py-2 py-lg-5 py-xl-5">
+            <h4 class="faq__title">Frequently Asked Questions</h4>
+            <div class="accordion accordion-flush mt-5" id="faqAccordion">
+                {% for faq in faqs %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqAccordionheading{{ faq.id }}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqAccordionCollapseOne{{ faq.id }}" aria-expanded="false" aria-controls="faqAccordionCollapseOne{{ faq.id }}">
+                            {{ faq.quens}}
+                        </button>
+                    </h2>
+                    <div id="faqAccordionCollapseOne{{ faq.id }}" class="accordion-collapse collapse" aria-labelledby="faqAccordionheading{{ faq.id }}" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">{{ faq.ans }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+                <!-- <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqAccordionheadingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqAccordionCollapseTwo" aria-expanded="false" aria-controls="faqAccordionCollapseTwo">
+                            Is the site secure ?
+                        </button>
+                    </h2>
+                    <div id="faqAccordionCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqAccordionheadingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, We take security and privacy seriously. We have implemented measures such as encryption, secure connections, 
+                            and verification processes to ensure the safety of user data. However, it is always important to be 
+                            cautious and avoid sharing sensitive information with unknown individuals outside of our platform.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqAccordionheadingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqAccordionCollapseThree" aria-expanded="false" aria-controls="faqAccordionCollapseThree">
+                            How can I register to the platform?
+                        </button>
+                    </h2>
+                    <div id="faqAccordionCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqAccordionheadingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Our registration procedure is simple and straight forward. All you need is a valid mobile number and email address.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqAccordionheadingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqAccordionCollapseFour" aria-expanded="false" aria-controls="faqAccordionCollapseFour">
+                            What kind of information is required to create a profile?
+                        </button>
+                    </h2>
+                    <div id="faqAccordionCollapseFour" class="accordion-collapse collapse" aria-labelledby="faqAccordionheadingFour" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            When creating a profile on a this site, you will typically be asked to provide details such as name, age, gender, 
+                            religion, educational background, occupation, family background, and partner preferences.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqAccordionheadingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqAccordionCollapseFive" aria-expanded="false" aria-controls="faqAccordionCollapseFive">
+                            Can I search for matches based on specific criteria?
+                        </button>
+                    </h2>
+                    <div id="faqAccordionCollapseFive" class="accordion-collapse collapse" aria-labelledby="faqAccordionheadingFive" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, We offer advanced search options that allow you to customize your search based on various criteria 
+                            such as age, location, religion, educational qualifications, occupation, and more. 
+                            This helps you narrow down the options to find potential matches that meet your preferences.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqAccordionheadingSix">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqAccordionCollapseSix" aria-expanded="false" aria-controls="faqAccordionCollapseSix">
+                            Are the profiles on Bibahoovijan verified?
+                        </button>
+                    </h2>
+                    <div id="faqAccordionCollapseSix" class="accordion-collapse collapse" aria-labelledby="faqAccordionheadingSix" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            We have a verification process in place to ensure the authenticity of profiles. 
+                            We verify phone numbers, email addresses, or request documents to confirm the identity and 
+                            background information of users. However, it's still essential to exercise caution and 
+                            use your judgment while interacting with others online.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqAccordionheadingSeven">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqAccordionCollapseSeven" aria-expanded="false" aria-controls="faqAccordionCollapseSeven">
+                            Is there a fee for using this site?
+                        </button>
+                    </h2>
+                    <div id="faqAccordionCollapseSeven" class="accordion-collapse collapse" aria-labelledby="faqAccordionheadingSeven" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Currently registration, profile creation and searching is completely free.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqAccordionheadingEight">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqAccordionCollapseEight" aria-expanded="false" aria-controls="faqAccordionCollapseEight">
+                            Can I delete my account or posts if I no longer want to use this site?
+                        </button>
+                    </h2>
+                    <div id="faqAccordionCollapseEight" class="accordion-collapse collapse" aria-labelledby="faqAccordionheadingEight" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            You can delete your posts and account any time you want. But we encourage you to deactivate your profile
+                            so that you can return and continue using our platform any time without any hassle.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqAccordionheadingNine">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqAccordionCollapseNine" aria-expanded="false" aria-controls="faqAccordionCollapseNine">
+                            Can I report or block users who behave inappropriately?
+                        </button>
+                    </h2>
+                    <div id="faqAccordionCollapseNine" class="accordion-collapse collapse" aria-labelledby="faqAccordionheadingNine" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, We provide options to report or block users who engage in inappropriate behavior. 
+                            If you come across someone who violates the site's terms of service or makes you uncomfortable, 
+                            you can use the reporting or blocking feature to protect yourself and notify the site administrators.
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid py-5" style="background-color: #f8f8f8;">
+        <div class="container-md py-4 px-2 footer_section__inner_container">
+            <div class="row">
+                <div class="col-6 col-lg-3 col-xl-3">
+                    <p class="footer_section__title">Information</p>
+                    <div><a href="">About Us</a></div>
+                    <div><a href="">Terms & Conditions</a></div>
+                    <div><a href="">Privacy & Policy</a></div>
+                    <div><a href="">Cookie Policy</a></div>
+                    <div><a href="">Sitemap</a></div>
+                </div>
+                <div class="col-6 col-lg-3 col-xl-3">
+                    <p class="footer_section__title">Need Help?</p>
+                    <div><a href="">Sign Up</a></div>
+                    <div><a href="">Login</a></div>
+                    <div><a href="">Advanced Search</a></div>
+                    <div><a href="">Report Misuse</a></div>
+                    <div><a href="">Contact Us</a></div>
+                    <div><a href="">FAQ</a></div>
+                </div>
+                <div class="col-6 col-lg-3 col-xl-3">
+                    <p class="footer_section__title">Services</p>
+                    <div><a href="">Matrimony Service</a></div>
+                    <div><a href="">Wedding Planner</a></div>
+                </div>
+                <div class="col-6 col-lg-3 col-xl-3">
+                    <p class="footer_section__title">Follow us on</p>
+                    <div><a href="">Facebook</a></div>
+                    <div><a href="">Instagram</a></div>
+                    <div><a href="">Twitter</a></div>
+                </div>
+            </div>
+            <div class="text-center pt-3 pt-lg-5 pt-xl-5">© 2023 bibahoovijan.com</div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Mobile number verification</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="showotp" style="display: none;">
+                        <div id="otp_input" class="mb-3">
+                            <input type="number" class="form-control form-control-sm" id="otp" name="otp" placeholder="ENTER CODE">
+                        </div>
+                        <div id="verify_phn" class="submit-otp-content text-center">
+                            <p id="countdown" class="mt-2 m-0">&nbsp;</p>
+                            <button class="resend__initial_btn" type="button" id="resend_otp" onclick="otpSend()" disabled>Resend new Code</button>
+                            <!-- <button class="btn btn-primary me-2" type="button" onclick="verifyOtp()">Submit</button> -->
+                            <button class="btn continue__initial_btn" type="submit">Continue</button>
+                            <p style="font-size: 13px;color: #999;">By clicking continue button you are agree to our <span style="color: #0d71ab;">terms and conditions</span> </p>
+                            <!-- <p class="text-danger mt-2 mb-1" id="verify_otp_response"></p> -->
+                         </div>
+                    </div>
+                </div>           
+                <!-- <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Patience is the key to successful marriage</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Please have patience. We will go live soon.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Okay! I got it</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'website/js/style.min.js' %}"></script>
+    <script>
+
+        function register() {      
+            // document.getElementById("send_otp").style.display = "none";
+            document.getElementById("showotp").style.display = "block";
+            document.getElementById("verify_phn").style.width = "100%";
+            // document.getElementById("verify_phn").style.display = "block"
+            sendOTP()
+            setTimeout(function(){
+                var element = document.getElementById("resend_otp");
+                element.disabled = false;
+            }, 11000);
+
+            var timeleft = 10;
+            var downloadTimer = setInterval(function(){
+                if(timeleft < 0){
+                    clearInterval(downloadTimer);
+                    document.getElementById("countdown").innerText = "Successfully sent OTP in your mobile no!";
+                    document.getElementById("resend_otp").style.color = "#20a0ea";
+                } else {
+                    document.getElementById("countdown").innerText = "Didn't you receive the code? You can resend OTP in "+ timeleft + " sec";
+                    }
+                timeleft -= 1;
+            }, 1000);
+        }
+
+        function otpSend(){
+            document.getElementById("resend_otp").disabled = true;
+            document.getElementById("resend_otp").style.color = "#999";
+            document.getElementById("resend_otp").style.cursor = "not-allowed";
+            setTimeout(function(){
+                var element = document.getElementById("resend_otp");
+                element.disabled = false;
+                document.getElementById("resend_otp").style.cursor = "pointer";
+            }, 11000);
+
+            var timeleft = 10;
+            var downloadTimer = setInterval(function(){
+            if(timeleft < 0){
+                clearInterval(downloadTimer);
+                document.getElementById("countdown").innerHTML = "Successfully sent OTP in your mobile no!";
+                document.getElementById("resend_otp").style.color = "#20a0ea";
+            } else {
+                document.getElementById("countdown").innerHTML = "Didn't you receive the code? You can resend OTP in "+ timeleft + " sec";
+                }
+            timeleft -= 1;
+            }, 1000);
+        }
+
+        function sendOTP(){
+            let mobile = document.getElementById("mobile").value;
+
+            if(mobile && mobile !== '') {
+                console.log('--------', mobile)
+                $.ajax({
+                    url: "{% url 'sendOTP' %}",
+                    type: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'mobile': mobile,
+                        // 'otp': otp
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        return data
+                    },
+                    error: function (err) {
+                        console.log(err.responseJSON)
+                        return err.responseJSON
+
+                    }
+                });
+            }
+
+        }
+ 
+
+        function resendOTP(){
+
+            let mobile = document.getElementById("mobile").value;
+            if(mobile && mobile !== '')
+            {
+                document.getElementById("resend_otp").disabled = true;
+
+                sendOTP()
+
+                setTimeout(function(){
+                    var element = document.getElementById("resend_otp");
+                    element.disabled = false;
+                }, 11000);
+
+                var timeleft = 10;
+                var downloadTimer = setInterval(function(){
+                if(timeleft < 0){
+                    clearInterval(downloadTimer);
+                    document.getElementById("countdown").innerHTML = "Successfully sent OTP in your mobile no!";
+                } else {
+                    document.getElementById("countdown").innerHTML = "Didn't receive the OTP? You can resend OTP in "+ timeleft + " sec";
+                    }
+                timeleft -= 1;
+                }, 1000);
+
+            }
+            else
+            {
+                document.getElementById("mobile_warning").innerText = "Required";
+            }
+            
+        }
+
+        // function verifyOtp(){
+        //     let contact = document.getElementById("company_email").value;
+        //     let otp = document.getElementById("otp").value;
+        //     if(otp && otp !== '') {
+        //         $.ajax({
+        //             url: verify_otp_url,
+        //             type: 'POST',
+        //             data: {
+        //                 'csrfmiddlewaretoken': '{{ csrf_token }}',
+        //                 'contact': contact,
+        //                 'otp': otp
+        //             },
+        //             success: function (data) {
+        //                 document.getElementById('verify_otp_response').style.display = "none";
+        //                 $('#submit').click();
+        //             },
+        //             error: function (err) {
+        //                 var error = err.responseJSON.message;
+        //                 document.getElementById('verify_otp_response').innerHTML = error;
+        //             }
+        //         });
+        //     }
+        // }
+ 
+    </script>
+</body>
+</html>

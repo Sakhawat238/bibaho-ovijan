@@ -1,0 +1,113 @@
+{% extends "Common/Website/base.html" %}
+{% load static %}
+{% load custom_tags %}
+
+{%block style%}
+<link rel="stylesheet" href="{% static 'website/css/wpgiglist.css' %}">
+{%endblock%}
+
+{%block content%}
+<div class="container-md mt-5 pt-5">
+    <div>
+        {% for s in services %}
+        <a href="{%url 'SellerGigList' %}?s={{s.title}}" class="service__card">{{s.title}}</a>
+        {%endfor%}
+    </div>
+    <div class="d-flex justify-content-between mt-3 mb-2">
+        <div>{{total}} services shown</div>
+        <form method="get" action="{%url 'SellerGigList' %}" autocomplete="off" id="sortbyform">
+            <input type="hidden" name="s" value="{{selected_service}}" />
+            <label for="sortbyselection">Sort by</label>
+            <select name="o" id="sortbyselection">
+                <option value="T" {%if selected_sorting == 'T'%}selected{%endif%} >Recently posted</option>
+                <option value="R" {%if selected_sorting == 'R'%}selected{%endif%} >Best Rating</option>
+            </select>
+        </form>
+    </div>
+    <div class="offered_service__inner_container">
+        {%for g in gigs %}
+        <div class="offered_service__card">
+            <div class="offered_service__card__img_div">
+                <img src="{{g.g.thumbnail.url}}" alt="servicepic" class="offered_service__card__img"/>
+            </div>
+            <div class="d-flex align-items-center px-3 py-2">
+                <div class="offered_service__card__seller">
+                    <div>
+                        <img src="{%if g.g.propic %}{{g.g.propic.url}}{%else%}
+                        {% static 'website/images/person.jpg' %}{%endif%}" class="offered_service__card__seller_img"/>
+                    </div>
+                    <div style="font-size: 0.8rem;">
+                        <div style="font-weight: 600;">{{g.g.seller}}</div>
+                        <div><i class="fa-solid fa-star"></i> {{g.g.rating}}</div>
+                    </div>
+                </div>
+                {%if g.b %}
+                <div style="color: var(--bo-secondary);"><i class="fa-solid fa-bookmark"></i></div>
+                {%else%}
+                <div style="display: {% show_bookmark request %};">
+                    <a data-bs-toggle="modal" data-bs-target="#bookmarkModal" data-bs-toggle="tooltip" data-bs-placement="top" title="Bookmark" onclick="setBID({{g.g.id}})"><i class="fa-regular fa-bookmark"></i></a>
+                </div>
+                {%endif%}
+            </div>
+            <a href="{% url 'SellerGigView' g.g.id %}" class="offered_service__link">
+                {{g.g.title}}
+            </a>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+
+<div class="modal fade" id="bookmarkModal" tabindex="-1" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="bid" />
+                <label for="remarks" class="form-label">Please add few lines so that you can remember later why you added this as bookmark.</label>
+                <textarea id="remarks" class="form-control" rows="5"></textarea>
+                <div class="text-center mt-2">
+                    <button type="button" class="btn btn-sm btn-primary" id="addbookmark" data-bs-dismiss="modal">Add Bookmark</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
+
+{%block js%}
+<script>
+function setBID(id) {
+    $('#bid').val(id);
+}
+
+$(document).ready(function(){
+    $('#sortbyselection').change(function(){
+        $('#sortbyform').submit();
+    });
+    $('#addbookmark').click(function(){
+        bid = $('#bid').val();
+        remarks = $('#remarks').val();
+        $.ajax({
+            url: '{%url "AddBookmark" %}',
+            data: {
+                'id': bid,
+                'type': 'service',
+                'remarks': remarks
+            },
+            success: function(data) {
+                if(data["success"] == true) {
+                    alert('Service bookmarked successfully.')
+                    location.reload();
+                } else {
+                    alert('Service bookmarking failed.')
+                }
+
+            }
+        });
+    });
+});
+</script>
+{%endblock%}

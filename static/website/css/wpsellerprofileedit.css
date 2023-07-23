@@ -1,0 +1,26 @@
+.profile_edit__card {
+    padding: 1.2rem;
+    background: #f8f8f8;
+    box-shadow: 0px 0px 2px 1px #e1e1e1;
+}
+
+#the-count {
+    float: right;
+    padding: 0.1rem 0 0 0;
+    font-size: 0.875rem;
+}
+
+#the-count2 {
+    float: right;
+    padding: 0.1rem 0 0 0;
+    font-size: 0.875rem;
+}
+
+.update_profile_btn {
+    background-color: var(--bo-secondary);
+    color: white;
+}
+
+.update_profile_btn:hover {
+    background-color: var(--bo-secondary-dark);
+}

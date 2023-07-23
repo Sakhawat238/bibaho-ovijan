@@ -1,0 +1,93 @@
+{% extends "Common/Website/base.html" %}
+{% load static %}
+
+{%block style%}
+<link rel="stylesheet" href="{% static 'website/css/landingpage.css' %}">
+{%endblock%}
+
+{%block content %}
+<div class="container-fluid">
+    <div class="container-md">
+        <div class="py-5 d-flex justify-content-center">
+            <p class="hero_section__title">
+                Welcome to Bangladesh's largest 
+                <span style="color: #eb008b;">matrimony</span> & 
+                <span style="color: #0c83c8;">wedding planner</span> service
+            </p>
+        </div>
+        <div class="py-3 py-lg-4 py-xl-4 service__card_container">
+            <div class="service__card">
+                <div class="service__card__inner matrimony__card">
+                    <img src="{% static 'website/images/wedding-rings.png' %}" alt="matrimony" width="100px" height="100px"/>
+                    <h4>Matrimony</h4>
+                    <p>Register for free, Create your biodata, Browse thousands of profiles and Find your desired one.</p>
+                    <div class="service__card__link_div"><a href="{% url 'MatrimonyLandingPage' %}">Browse Now</a></div>
+                </div>
+            </div>
+            <div class="service__card">
+                <div class="service__card__inner planner__card">
+                    <img src="{% static 'website/images/planning.png' %}" alt="matrimony" width="100px" height="100px"/>
+                    <h4>Wedding Planner</h4>
+                    <p>Find everything you need to successfully marry your loved one in a single platform.</p>
+                    <div class="service__card__link_div"><a href="{% url 'WeddingPlannerLandingPage' %}">Get Started</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="height: 100px;"></div>
+
+<div class="container-fluid py-5" style="background-color: #f8f8f8;">
+    <div class="container-md py-4 px-2 footer_section__inner_container">
+        <div class="row">
+            <div class="col-6 col-lg-3 col-xl-3">
+                <p class="footer_section__title">Information</p>
+                <div><a href="">About Us</a></div>
+                <div><a href="">Terms & Conditions</a></div>
+                <div><a href="">Privacy & Policy</a></div>
+                <div><a href="">Cookie Policy</a></div>
+                <div><a href="">Sitemap</a></div>
+            </div>
+            <div class="col-6 col-lg-3 col-xl-3">
+                <p class="footer_section__title">Need Help?</p>
+                <div><a href="">Sign Up</a></div>
+                <div><a href="">Login</a></div>
+                <div><a href="">Advanced Search</a></div>
+                <div><a href="">Report Misuse</a></div>
+                <div><a href="">Contact Us</a></div>
+                <div><a href="">FAQ</a></div>
+            </div>
+            <div class="col-6 col-lg-3 col-xl-3">
+                <p class="footer_section__title">Services</p>
+                <div><a href="">Matrimony Service</a></div>
+                <div><a href="">Wedding Planner</a></div>
+            </div>
+            <div class="col-6 col-lg-3 col-xl-3">
+                <p class="footer_section__title">Follow us on</p>
+                <div><a href="">Facebook</a></div>
+                <div><a href="">Instagram</a></div>
+                <div><a href="">Twitter</a></div>
+            </div>
+        </div>
+        <div class="text-center pt-3 pt-lg-5 pt-xl-5">© 2023 bibahoovijan.com</div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Patience is the key to successful marriage</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Please have patience. We will go live soon.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Okay! I got it</button>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

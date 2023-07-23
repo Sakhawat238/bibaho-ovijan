@@ -1,0 +1,118 @@
+{% extends "Common/Admin/base.html" %} {% load static %} {% block title %}
+    <title>Module Management</title>
+{% endblock title %} {% block content %}
+    {% include 'Common/Admin/sidebar.html' with data=cnav %}
+
+    <div class="app-body mt-0 page-wrapper" >
+        <main class="main p-0">
+            <div class="page_header">
+                <a href="{% url 'ModuleManagement' %}">Module Management</a> /
+                <span>Edit</span>
+            </div>
+
+            {% if messages %} {% for message in messages %}
+                <script type="text/javascript">
+                    toastr["{{message.tags}}"]("{{message}}", "{{message.tags|upper}}");
+                </script>
+            {% endfor %} {% endif %}
+
+            <div class="card">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row d-flex">
+                                <div class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                    <label
+                                            for="moduleName"
+                                            class="col-form-label required">Module Name:</label
+                                    >
+                                    <input
+                                            type="text"
+                                            class="form-control form-control-sm"
+                                            id="moduleName"
+                                            name="element_name"
+                                            value="{{ sub_module.name }}"
+                                            required
+                                    />
+                                </div>
+                                <div class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                    <label
+                                            for="moduleOrder"
+                                            class="col-form-label required"
+                                    >Module Order:</label
+                                    >
+                                    <input
+                                            type="number"
+                                            class="form-control form-control-sm"
+                                            id="moduleOrder"
+                                            name="element_order"
+                                            value="{{ sub_module.order }}"
+                                            required
+                                    />
+                                </div>
+                                <div
+                                        class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                    <label
+                                            class="col-form-label"
+                                            for="text-input"
+                                    >Module Parent :</label
+                                    >
+                                    <select
+                                            class="form-control form-control-sm"
+                                            name="module_parent"
+                                            required
+                                    >
+                                        <option value="{{ module.id }}">{{ module.name }}</option>
+                                        {% for m in modules %} {% if m.name != sub_module.module.name %}
+                                            <option value="{{ m.id }}">{{ m.name }}</option>
+                                        {% endif %} {% endfor %}
+                                    </select>
+                                </div>
+                                <div
+                                        class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                    <label
+                                            class="col-form-label"
+                                            for="text-input"
+                                    >Module type :</label
+                                    >
+                                    <select
+                                            class="form-control form-control-sm"
+                                            name="element_type"
+                                            required
+                                    >
+                                        <option {% if module.module_type == 'configuration' %} selected {% endif %} value="c">configuration</option>
+                                        <option {% if module.module_type == 'operation' %} selected {% endif %} value="o">operation</option>
+                                        <option {% if module.module_type == 'report' %} selected {% endif %} value="r">report</option>
+
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <div class="d-flex">
+                            <button
+                                    type="button"
+                                    class="btn btn-sm btn-secondary"
+                                    onclick="javascript:window.history.back();"
+                            >
+                                <i class="fa fa-angle-left"></i> Back
+                            </button>
+                            <div style="width: 10px"></div>
+                            <button type="reset" class="reset btn btn-sm btn-danger">
+                                <i class="fa fa-ban"></i> Reset
+                            </button>
+                        </div>
+                        <div>
+                            <button type="submit" class="submit btn btn-sm btn-primary">
+                                <i class="fa fa-arrow-circle-right"></i> Submit
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+{% endblock %}

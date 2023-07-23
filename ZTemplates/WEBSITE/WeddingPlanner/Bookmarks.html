@@ -1,0 +1,26 @@
+{% extends "Common/Website/base.html" %}
+{% load static %}
+
+{%block style%}
+<link rel="stylesheet" href="{% static 'website/css/wpbookmarks.css' %}">
+{%endblock%}
+
+{%block content%}
+<div class="container-md mt-5">
+    <div>
+        <div class="bookmark_section__title">You have bookmarked these services</div>
+        <div class="bookmark_section__message">(If you see less services, it means some sellers have removed their services from our platform)</div>
+        <div class="bookmark__services__container">
+            {% for g in gigs %}
+            <div class="single__service__card">
+                <div><a class="service__link" href="{% url 'SellerGigView' g.gig.id %}">{{g.gig.title}}</a></div>
+                <div>
+                    <div>Remarks: {{g.remarks}}</div>
+                    <div>Added on {{g.created_at|date}}</div>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+{%endblock%}

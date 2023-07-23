@@ -1,0 +1,41 @@
+{%spaceless%}
+<aside class="left-sidebar">
+  <div class="scroll-sidebar">
+    <nav class="sidebar-nav">
+      <ul id="sidebarnav" class="pt-4">
+      {%for mtype, mvalue in data.modules.items %}
+        <li class="s-sidebar-item-heading">{{mtype}}</li>
+        {%for key, value in mvalue.items%}
+          {% if value.items|length == 1 %}
+            {%for tsk,tskurl in value.items %}
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="{%url tskurl%}">
+                  <img src="" alt="" style="width:15px;margin-right:5px">
+                  <span class="hide-menu">{{tsk}}</span>
+                </a>
+              </li>
+            {%endfor%}
+          {%else%}
+          <li class="sidebar-item">
+            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+              <img src="" alt="" style="width:15px;margin-right:5px">
+              <span class="hide-menu">{{key}}</span>
+            </a>
+            <ul aria-expanded="false" class="collapse first-level">
+              {%for tsk,tskurl in value.items %}
+              <li class="sidebar-item">
+                <a href="{%url tskurl%}" class="sidebar-link">
+                  <span class="hide-menu">{{tsk}}</span>
+                </a>
+              </li>
+              {%endfor%}
+            </ul>
+          </li>
+          {%endif%}
+        {%endfor%}
+      {%endfor%}
+      </ul>
+    </nav>
+  </div>
+</aside>
+{%endspaceless%}

@@ -1,0 +1,49 @@
+{% extends "Common/Website/base.html" %}
+{% load static %}
+
+{%block style%}
+<link rel="stylesheet" href="{% static 'website/css/wpgigview.css' %}">
+{%endblock%}
+
+{%block content%}
+<div class="container-md mt-5">
+    <form method="post" autocomplete="off" enctype="multipart/form-data">
+        {%csrf_token%}
+        <div class="row mb-3">
+            <div class="col-3 text-end">
+                <label for="title" class="form-label fw-bold">Title :</label>
+            </div>
+            <div class="col-6">
+                <input type="text" class="form-control" maxlength="200" id="title" name="title" required />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3 text-end">
+                <label for="details" class="form-label fw-bold">Details :</label>
+            </div>
+            <div class="col-6">
+                <textarea name="details" id="details" rows="10" class="form-control" required></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3 text-end">
+                <label for="title" class="form-label fw-bold">Thumbnail :</label>
+            </div>
+            <div class="col-6">
+                <input style="all: unset;" type="file" accept="image/*" class="form-control" name="thumbnail" id="thumbnail" required />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-3 text-end">
+                <label for="date" class="form-label fw-bold">Date :</label>
+            </div>
+            <div class="col-6">
+                <input type="date" class="form-control" maxlength="200" id="date" name="date" required />
+            </div>
+        </div>
+        <div class="text-center mb-4">
+            <button class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+{%endblock%}

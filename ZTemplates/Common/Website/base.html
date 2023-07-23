@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Bibaho Ovijan (বিবাহ অভিযান)</title>
+    {% block meta %}
+    {% endblock %}
+    <link rel="shortcut icon" href="{% static 'website/images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'website/css/style.min.css' %}">
+    <link rel="stylesheet" href="{% static 'website/css/common.min.css' %}">
+    <script src="https://kit.fontawesome.com/0eca1e69db.js" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="{%static 'website/css/pikaday.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'website/css/toastr.min.css' %}">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/css/selectize.min.css" integrity="sha512-zSutnLmqtlWVx0A5NdW8YwshpUETPzJ6YBAvb+bkE0QbVKopS0ACPjE6QY6F9aFPSowfiho+hgeQh095FRPj5A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+    <script src="{% static 'website/js/jquery.min.js' %}"></script>
+    {% block style %}
+    {% endblock %}
+</head>
+<body>
+{%if messages%}
+{%for message in messages%}
+<script type="text/javascript">
+    $(document).ready(function () {
+        toastr["{{message.tags}}"]("{{message}}", "{{message.tags|upper}}");
+    });
+</script>
+{%endfor%}
+{%endif%}
+{% include 'Common/Website/navbar.html' %}
+{% block content %}
+{% endblock content %}
+{% include 'Common/Website/footer.html'%}
+<script src="{% static 'website/js/style.min.js' %}"></script>
+<!-- <script src="{%static 'website/js/moment.min.js' %}"></script>
+<script src="{% static 'website/js/pikaday.js' %}"></script> -->
+<script src="{% static 'website/js/toastr.min.js' %}"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/js/standalone/selectize.min.js" integrity="sha512-pgmLgtHvorzxpKra2mmibwH/RDAVMlOuqU98ZjnyZrOZxgAR8hwL8A02hQFWEK25V40/9yPYb/Zc+kyWMplgaA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+{% block js %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,51 @@
+{%load static%}
+{%spaceless%}
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+    <div class="navbar-header">
+      <div class="navbar-brand">
+        <a href="{% url 'home_page' %}" >
+          <b class="logo-icon ps-2">
+            <img src="{% static 'admin-panel/images/jplogo.png' %}" alt="homepage" class="light-logo" style="width: 5rem;"/>
+          </b>
+        </a>
+      </div>
+      <div class="nav-item dropdown d-md-none d-flex align-items-center">
+        <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="{% static 'images/profile.jpg' %}" alt="user" class="rounded-circle" width="31"/>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'profile' %}">
+            <i class="fa fa-user me-1 ms-1"></i> Profile</a>
+          <a class="dropdown-item" href="{% url 'logout' %}">
+            <i class="fa fa-power-off me-1 ms-1"></i> Logout</a>
+        </ul>
+        <a class="nav-toggler waves-effect waves-light d-block"  href="javascript:void(0)">
+          <i class="fas fa-bars"></i>
+        </a>
+      </div>
+    </div>
+    <a class="nav-link d-none d-lg-block sidebartoggler waves-effect waves-light" href="javascript:void(0)" data-sidebartype="mini-sidebar">
+      <i class="fas fa-bars"></i>
+    </a>
+    <div class="navbar-collapse collapse">
+      <ul class="navbar-nav float-start me-auto">
+      </ul>
+      <ul class="navbar-nav float-end">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {% comment %}<img src="{% static 'images/profile.jpg' %}" alt="user" class="rounded-circle" width="31"/>{% endcomment %}
+              <span>{{ request.user.first_name }}</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'profile' %}">
+              <i class="fa fa-user me-1 ms-1"></i> Profile</a>
+            <a class="dropdown-item" href="{% url 'logout' %}">
+              <i class="fa fa-power-off me-1 ms-1"></i> Logout</a>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+{%endspaceless%}

@@ -1,0 +1,216 @@
+{% extends "Common/Admin/base.html" %} {%load static%} {%block title%}
+<title>Role Management</title>
+{%endblock title%} {%block style%}
+<style>
+  .clsp-toggle::after {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+  }
+</style>
+{%endblock%} {%block content%}
+{% include 'Common/Admin/sidebar.html' with data=cnav %}
+
+<div class="app-body mt-0 page-wrapper">
+  <main class="main p-0">
+    <div class="page_header">
+      <a href="{%url 'RoleManagement'%}">Role Management</a> /
+      <span>Create</span>
+    </div>
+
+    {%if messages%} {%for message in messages%}
+    <script type="text/javascript">
+      toastr["{{message.tags}}"]("{{message}}", "{{message.tags|upper}}");
+    </script>
+    {%endfor%} 
+    {%endif%}
+    <div class="card">
+      <form method="post">
+        {% csrf_token %}
+        <div class="card-body">
+          <div class="container">
+            <div class="form-group" style="margin-bottom: 10px">
+              <label
+                class="col-12 col-md-3 col-lg-3 col-xl-3 col-form-label"
+                for="text-input"
+                >Role Name:</label
+              >
+              <input
+                type="text"
+                class="form-control col-12 col-md-9 col-lg-9 col-xl-9"
+                name="role_name"
+                id="role_name"
+                placeholder="Enter role name"
+                required
+              />
+            </div>
+            {% for module, tasks in data.items%}
+              <div style="margin-bottom: 10px">
+                <button
+                class="btn clsp-toggle"
+                style="
+                  width: 100%;
+                  text-align: start;
+                  color: white;
+                  background-color: #696969;
+                  border-radius: 0%;
+                "
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse{{module.id}}"
+                aria-expanded="false"
+                aria-controls="collapse{{cm.id}}"
+              >
+                Module: {{module.name}}
+              </button>
+
+              <div
+                class="collapse"
+                id="collapse{{module.id}}"
+                style="background: #001c4555; color: black; padding-left: 15px"
+              >
+                {% for task in tasks %}
+                <div
+                  class="row"
+                  style="
+                    margin-left: 0;
+                    margin-right: 0;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                  "
+                >
+                  <div class="col-12 col-md-4 col-lg-3 col-xl-3">
+                    {{task.name}}
+                  </div>
+                  <div class="col-12 col-md-8 col-lg-9 col-xl-9">
+                    <div class="form-check-inline d-flex flex-wrap">
+                      {%if task.view_task %}
+                      <div class="form-check pr-3">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value="view_checked"
+                          name="task_{{task.id}}"
+                        />
+                        <label class="form-check-label">View</label>
+                      </div>
+                      {%endif%} {%if task.add_task%}
+                      <div class="form-check mb-0 pr-3">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value="add_checked"
+                          name="task_{{task.id}}"
+                        />
+                        Add
+                      </div>
+                      {%endif%} {%if task.save_task%}
+                      <div class="form-check pr-3">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value="save_checked"
+                          name="task_{{task.id}}"
+                        />
+                        Save
+                      </div>
+                      {%endif%} {%if task.edit_task %}
+                      <div class="form-check pr-3">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value="edit_checked"
+                          name="task_{{task.id}}"
+                        />
+                        Edit
+                      </div>
+                      {%endif%} {%if task.delete_task%}
+                      <div class="form-check pr-3">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value="delete_checked"
+                          name="task_{{task.id}}"
+                        />
+                        Delete
+                      </div>
+                      {%endif%} {%if task.print_task %}
+                      <div class="form-check pr-3">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value="print_checked"
+                          name="task_{{task.id}}"
+                        />
+                        Print
+                      </div>
+                      {%endif%} {%if task.cancel_task%}
+                      <div class="form-check pr-3">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value="cancel_checked"
+                          name="task_{{task.id}}"
+                        />
+                        Cancel
+                      </div>
+                      {%endif%} {%if task.reset_task%}
+                      <div class="form-check pr-3">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value="reset_checked"
+                          name="task_{{task.id}}"
+                        />
+                        Reset
+                      </div>
+                      {%endif%} {%if task.find_task%}
+                      <div class="form-check pr-3">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value="find_checked"
+                          name="task_{{task.id}}"
+                        />
+                        Find
+                      </div>
+                      {%endif%}
+                    </div>
+                  </div>
+                </div>
+                {%endfor%}
+              </div>
+              </div>
+              {%endfor%}
+          </div>
+        </div>
+        <div class="card-footer d-flex">
+          <div class="d-flex col-md-6">
+            <button
+            type="button"
+            class="btn btn-sm btn-secondary"
+            onclick="javascript:window.history.back();"
+            >
+            <i class="fa fa-angle-left"></i> Back
+          </button>
+          <div style="width: 10px"></div>
+          <button type="reset" class="reset btn btn-sm btn-danger">
+            <i class="fa fa-ban"></i> Reset
+          </button>
+          </div>
+          <div class="col-md-6">
+            <button type="submit" class="submit btn btn-sm btn-primary">
+             <i class="fa fa-arrow-circle-right"></i> Submit
+           </button>
+         </div>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>
+{%endblock%} {%block js%} {%endblock%}

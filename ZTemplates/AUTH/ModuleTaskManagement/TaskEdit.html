@@ -1,0 +1,214 @@
+{% extends "Common/Admin/base.html" %}
+{%block title%}
+<title>Task Management</title>
+{%endblock title%}
+
+{%block style%}
+{%endblock%}
+
+{%block content%}
+{% include 'Common/Admin/sidebar.html' with data=cnav %}
+<div class="app-body mt-0 page-wrapper">
+    <main class="main p-0">
+        <div class="page_header"><a href="{%url 'TaskManagement'%}">Task Management</a> / <span >Edit</span></div>
+        {%if messages%}
+        {%for message in messages%}
+        <script type="text/javascript">
+            toastr["{{message.tags}}"]("{{message}}", "{{message.tags|upper}}");
+        </script>
+        {%endfor%}
+        {%endif%}
+        <div class="card">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row d-flex">
+                            <div class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                <label class="col-form-label" for="text-input">Task Name
+                                    :</label>
+                                <input id="element_name" type="text" name="element_name"
+                                    class=" form-control"
+                                    placeholder="Enter task name" required value="{{task.name}}">
+                            </div>
+                            <div class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                <label class="col-form-label" for="text-input">Task Order
+                                        :</label>
+                                <input id="element_order" type="number" name="element_order"
+                                    class=" form-control"
+                                    placeholder="Enter task order" required value="{{task.order}}">
+                            </div>
+                            <div class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                <label class="col-form-label" for="task_url">Task Url
+                                        :</label>
+                                <input type="text" placeholder="Enter task url"
+                                    class=" form-control" name="task_url"
+                                    id="task_url" required value="{{task.task_url}}">
+                            </div>
+                            <div class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2">
+                                <label class="col-form-label" for="text-input">Module
+                                    Parent :</label>
+                                <select class=" form-control" id="element_module"
+                                    name="element_module" required>
+                                    <option value="{{task.module.id}}">{{task.module.name}}</option>
+                                    {%for m in mdls%}
+                                    {%if m.name != task.module.name%}
+                                    <option value="{{m.id}}">{{m.name}}</option>
+                                    {%endif%}
+                                    {%endfor%}
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-8 col-lg-8 col-xl-8 mt-2">
+                                <label class="col-form-label" for="text-input">Task Event
+                                    :</label>
+                                <div class="d-flex" style="flex-wrap: wrap;">
+                                    <div style="width: 80px; padding-top: 5px">
+                                        {%if task.view_task%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="view_checked"
+                                            id="element_task" name="element_task" checked>View
+                                        {%else%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="view_checked"
+                                                id="element_task" name="element_task">View
+                                           {%endif%}
+                                    </div>
+                                    <div style="width: 80px; padding-top: 5px">
+                                        {%if task.add_task%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="add_checked"
+                                            id="element_task" name="element_task" checked>Add
+                                        {%else%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="add_checked"
+                                                id="element_task" name="element_task">Add
+                                        {%endif%}
+                                    </div>
+                                    <div style="width: 80px; padding-top: 5px">
+                                        {%if task.save_task%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="save_checked"
+                                            id="element_task" name="element_task" checked>Save
+                                        {%else%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="save_checked"
+                                            id="element_task" name="element_task">Save
+                                        {%endif%}
+                                    </div>
+                                    <div style="width: 80px; padding-top: 5px">
+                                        {%if task.edit_task%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="edit_checked"
+                                                id="element_task" name="element_task" checked>Edit
+                                        {%else%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="edit_checked"
+                                                id="element_task" name="element_task">Edit
+                                        {%endif%}
+                                    </div>
+                                    <div style="width: 80px; padding-top: 5px">
+                                        {%if task.delete_task%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="delete_checked"
+                                                id="element_task" name="element_task" checked>Delete
+                                        {%else%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="delete_checked"
+                                                id="element_task" name="element_task">Delete
+                                        {%endif%}
+                                    </div>
+                                    <div style="width: 80px; padding-top: 5px">
+                                        {%if task.print_task%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="print_checked"
+                                                id="element_task" name="element_task" checked>Print
+                                        {%else%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="print_checked"
+                                                id="element_task" name="element_task">Print
+                                        {%endif%}
+                                    </div>
+                                    <div style="width: 80px; padding-top: 5px">
+                                        {%if task.cancel_task%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="cancel_checked"
+                                                id="element_task" name="element_task" checked>Cancel
+                                        {%else%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="cancel_checked"
+                                                id="element_task" name="element_task">Cancel
+                                           {%endif%}
+                                    </div>
+                                    <div style="width: 80px; padding-top: 5px">
+                                        {%if task.reset_task%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="reset_checked"
+                                                id="element_task" name="element_task" checked>Reset
+                                        {%else%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="reset_checked"
+                                                id="element_task" name="element_task">Reset
+                                        {%endif%}
+                                    </div>
+                                    <div style="width: 80px; padding-top: 5px">
+                                        {%if task.find_task%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="find_checked"
+                                                id="element_task" name="element_task" checked>Find
+                                        {%else%}
+                                        <input class="form-check-input mr-2" type="checkbox" value="find_checked"
+                                                id="element_task" name="element_task">Find
+                                        {%endif%}
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="form-group col-sm-12 col-md-8 col-lg-8 col-xl-8 mt-2">
+                                    <label class="col-form-label" for="text-input">Created for
+                                        :</label>
+                                    <div class="d-flex">
+                                        <div style="width: 100px;">
+                                            {% if task.for_superuser %}
+                                            <input type="radio" name="status" value="a" class="form-check-input mr-2"
+                                               checked>Superuser</input>
+                                            {%else%}
+                                            <input type="radio" name="status" value="a" class="form-check-input mr-2">Superuser</input>
+                                            {%endif%}
+                                        </div>
+                                    <div style="width: 100px;">
+                                        {% if task.for_superuser %}
+                                        <input type="radio" name="status" value="i" class="form-check-input mr-2">Everyone</input>
+                                        {%else%}
+                                        <input type="radio" name="status" value="i" class="form-check-input mr-2"
+                                               checked>Everyone</input>
+                                        {%endif%}
+                                    </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="card-footer d-flex justify-content-between">
+					<div class="d-flex">
+                        <button type="button" class="btn btn-sm btn-secondary" onclick="javascript:window.history.back();">
+							<i class="fa fa-angle-left"></i> Back
+						</button>
+                        <div style="width:10px;"></div>
+                        <button type="reset" class="reset btn btn-sm btn-danger">
+                            <i class="fa fa-ban"></i> Reset
+                        </button>
+                    </div>
+                    <button type="submit" class="submit btn btn-sm btn-primary">
+                        <i class="fa fa-arrow-circle-right"></i> Submit
+                    </button>
+				</div>
+            </form>
+        </div>
+    </main>
+</div>
+{%endblock content%}
+
+{%block js%}
+<script type="text/javascript">
+    {% comment %}$(document).ready(function(){
+      var $catselect = $('#element_module');
+      if ($catselect.data('selectator') === undefined) {
+        $catselect.selectator({
+          showAllOptionsOnFocus: true,
+          searchFields: 'value text subtitle right'
+        });
+      }
+
+      var $spselect = $('#supselect');
+      if ($spselect.data('selectator') === undefined) {
+        $spselect.selectator({
+          showAllOptionsOnFocus: true,
+          searchFields: 'value text subtitle right'
+        });
+      }
+    }){% endcomment %}
+</script>
+{%endblock%}
+

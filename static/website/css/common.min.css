@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;900&display=swap');
+:root {
+    --bo-primary: #eb008b;
+    --bo-primary-dark: #c20372;
+    --bo-primary-light: #f71b9b;
+    --bo-on-primary-surface: #ffffff;
+    --bo-secondary: #0c83c8;
+    --bo-secondary-dark: #0d71ab;
+    --bo-secondary-light: #20a0ea;
+    /* --jp-primary-light: #4247ad;
+    --jp-primary-dark: #2a2d70;
+    --jp-primary-100: #0061f2;
+    --jp-secondary: #c73d41;
+    --jp-secondary-light: #db4652;
+    --jp-secondary-dark: #8c2c33;
+    --jp-accent: #00b160;
+    --jp-accent-light: #00ba94;
+    --jp-body-color: #69707a;
+    --jp-gray: #666666;
+    --jp-background: #f4f8fd;
+    --jp-surface: #fff;
+    --jp-on-primary: #fff;
+    --jp-on-secondary: #fff;
+    --jp-on-background: #000;
+    --jp-on-surface: #000;
+    --jp-gradient-primary: linear-gradient(90deg, 
+        rgba(0,177,96,1) 0%, 
+        rgba(199,61,65,1) 50%, 
+        rgba(121,160,212,1) 78%, 
+        rgba(73,46,139,1) 100%);
+    --jp-gradient-priamry-variant: linear-gradient(90deg, 
+        rgba(199,61,65,1) 0%, 
+        rgba(121,160,212,1) 48%, 
+        rgba(121,160,212,1) 58%, 
+        rgba(121,160,212,1) 66%, 
+        rgba(73,46,139,1) 100%);
+    --jp-gradient-secondary: linear-gradient(30deg, 
+        rgba(251,176,64,1) 0%, 
+        rgba(255,255,255,1) 34%, 
+        rgba(255,255,255,1) 56%, 
+        rgba(255,255,255,0.14359247116815477) 100%),
+        linear-gradient(315deg, 
+        rgba(251,176,64,1) 0%, 
+        rgba(255,255,255,1) 34%, 
+        rgba(255,255,255,1) 56%, 
+        rgba(255,255,255,0.14359247116815477) 100%);
+     --jp-secondary-variant : linear-gradient(90deg, 
+        rgba(27,117,188,1) 0%, 
+        rgba(43,182,115,1) 38%, 
+        rgba(121,160,212,1) 100%);
+    --jp-box-shadow-primary: 0x 1px 4px 1px rgb(228, 228, 228); */
+}
+html, body { 
+    font-family: 'Mulish', sans-serif;
+    overflow-x: hidden; 
+}
+
+.nav__site_logo {
+    width: 180px;
+}
+
+.nav__login_btn {
+    background-color: var(--bo-primary);
+    color: var(--bo-on-primary-surface);
+}
+
+button:hover {
+    color: #fff;
+}
+
+.footer_section__inner_container a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+}
+
+.footer_section__title {
+    font-weight: 600;
+}

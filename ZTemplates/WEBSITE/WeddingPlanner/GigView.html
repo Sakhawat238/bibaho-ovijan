@@ -1,0 +1,185 @@
+{% extends "Common/Website/base.html" %}
+{% load static %}
+{% load custom_tags %}
+
+{%block style%}
+<link rel="stylesheet" href="{% static 'website/css/wpgigview.css' %}">
+{%endblock%}
+
+{%block content%}
+<div class="container-md my-5">
+    <div class="row">
+        <div class="col-8">
+            <div class="service__title">
+                {{data.gig.title}}
+                {%if data.bookmarked %}
+                <i style="color: var(--bo-secondary);" class="fa-solid fa-bookmark"></i>
+                {%else%}
+                <a style="display: {% show_bookmark request %};" data-bs-toggle="modal" data-bs-target="#bookmarkModal" 
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Bookmark">
+                    <i class="fa-regular fa-bookmark"></i>
+                </a>
+                {%endif%}
+            </div>
+            <div class="d-flex align-items-center mt-2" style="gap:15px">
+                <img src="{%if data.portfolio.picture %}{{ data.portfolio.picture.url}}{%else%}
+                    {% static 'website/images/person.jpg' %}{%endif%}" class="service__seller_img"/>
+                <div style="font-weight: 600; font-size: 0.8rem;">{{data.user.last_name}}</div>
+                <div style="font-size: 0.8rem;"><i class="fa-solid fa-star"></i> {{data.portfolio.average_rating}}</div>
+            </div>
+            <div>
+                {%for t in data.tags %}
+                <span class="badge bg-warning" style="color: black;">{{t.tag.title}}</span>
+                {%endfor%}
+            </div>
+            <div id="serviceGallaryCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="service__gallary_container">
+                            <img src="{{data.gig.thumbnail.url}}" alt="thumbnail" style="height: 100%;"/>
+                        </div>
+                    </div>
+                    {%for g in data.gallarys %}
+                    <div class="carousel-item">
+                        <div class="service__gallary_container">
+                            <img src="{{g.file.url}}" alt="image" style="height: 100%;"/>
+                        </div>
+                    </div>
+                    {%endfor%}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#serviceGallaryCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#serviceGallaryCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            <div style="font-size: 1.5rem; margin-top:1.5rem">About this offer</div>
+            <div style="margin-top: 1rem; color: #333333;">{{data.gig.description}}</div>
+            <ul class="nav nav-tabs mt-4">
+                <li class="nav-item" style="flex: 1;">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#basic">Basic</a>
+                </li>
+                <li class="nav-item" style="flex: 1;">
+                    <a class="nav-link" data-bs-toggle="tab" href="#standard">Standard</a>
+                </li>
+                <li class="nav-item" style="flex: 1;">
+                    <a class="nav-link" data-bs-toggle="tab" href="#premium">Premium</a>
+                </li>
+                <li class="nav-item" style="flex: 1;">
+                    <a class="nav-link" data-bs-toggle="tab" href="#custom">Custom</a>
+                </li>
+            </ul>
+            <div class="tab-content" style="background-color: #efefef;">
+                <div class="tab-pane container active py-4" id="basic">
+                    <div style="min-height: 350px; overflow-y: scroll;">
+                        {{data.basic.description | safe}}
+                    </div>
+                    <div class="package__price_div">
+                        Price : {%if data.basic.show_price %} {{data.basic.price}} {%else%} Negotiable {%endif%}
+                    </div>
+                </div>
+                <div class="tab-pane container py-4 fade" id="standard">
+                    <div style="min-height: 350px; overflow-y: scroll;">
+                        {{data.standard.description | safe}}
+                    </div>
+                    <div class="package__price_div">
+                        Price : {%if data.standard.show_price %} {{data.standard.price}} {%else%} Negotiable {%endif%}
+                    </div>
+                </div>
+                <div class="tab-pane container py-4 fade" id="premium">
+                    <div style="min-height: 350px; overflow-y: scroll;">
+                        {{data.premium.description | safe}}
+                    </div>
+                    <div class="package__price_div">
+                        Price : {%if data.premium.show_price %} {{data.premium.price}} {%else%} Negotiable {%endif%}
+                    </div>
+                </div>
+                <div class="tab-pane container py-4 fade" id="custom">
+                    <div style="min-height: 350px; overflow-y: scroll;">
+                        {{data.custom.description | safe}}
+                    </div>
+                    <div class="package__price_div">
+                        Price : {%if data.custom.show_price %} {{data.custom.price}} {%else%} Negotiable {%endif%}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div style="font-size: 1.5rem; margin-top:1.5rem; margin-bottom: 1rem;">Frequently asked questions</div>
+                {%for q in data.faqs %}
+                <div class="mb-2">
+                    <div><span>Q. </span>{{q.question}}</div>
+                    <div><span>A. </span>{{q.answer}}</div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+        <div class="col-4">
+            <div style="font-size: 1.5rem; margin-top:1.5rem; margin-bottom: 1rem;">About me</div>
+            <div>{{data.user.last_name}}</div>
+            <div>{% show_rating data.portfolio.average_rating %} {{data.portfolio.average_rating}}</div>
+            <div>Member since {{data.portfolio.joining_date}}</div>
+            <div class="mt-2">{{data.portfolio.bio}}</div>
+            <a href="" class="seller__contact_link">Contact Now</a>
+            <a href="{% url 'SellerProfilePublicView' data.user.slug %}" class="seller__profile_link">View Profile</a>
+            <div style="font-size: 1.5rem; margin-top:1.5rem; margin-bottom: 1rem;">Why you should pick me</div>
+            <div class="top_rating_div">
+                {%if data.toprating %}
+                <div>{% show_rating data.toprating.rating %}</div>
+                <div>by {{data.toprating.rated_by}} on {{data.toprating.date|date}}</div>
+                <div class="mt-2">{{data.toprating.details}}</div>
+                {%else%}
+                No recent review found
+                {%endif%}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="bookmarkModal" tabindex="-1" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="bid" value="{{data.gig.id}}"/>
+                <label for="remarks" class="form-label">Please add few lines so that you can remember later why you added this as bookmark.</label>
+                <textarea id="remarks" class="form-control" rows="5"></textarea>
+                <div class="text-center mt-2">
+                    <button type="button" class="btn btn-sm btn-primary" id="addbookmark" data-bs-dismiss="modal">Add Bookmark</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
+
+{%block js%}
+<script>
+$(document).ready(function(){
+    $('#addbookmark').click(function(){
+        bid = $('#bid').val();
+        remarks = $('#remarks').val();
+        $.ajax({
+            url: '{%url "AddBookmark" %}',
+            data: {
+                'id': bid,
+                'type': 'service',
+                'remarks': remarks
+            },
+            success: function(data) {
+                if(data["success"] == true) {
+                    alert('Service bookmarked successfully.')
+                    location.reload();
+                } else {
+                    alert('Service bookmarking failed.')
+                }
+
+            }
+        });
+    });
+});
+</script>
+{%endblock%}

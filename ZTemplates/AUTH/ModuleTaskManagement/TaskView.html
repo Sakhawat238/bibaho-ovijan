@@ -1,0 +1,101 @@
+{% extends "Common/Admin/base.html" %}
+{% block title %}
+    <title>Task Management</title>
+{% endblock title %}
+
+{% block style %}
+    <style>
+        .row {
+            padding: 5px 0px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% include 'Common/Admin/sidebar.html' with data=cnav %}
+
+    <div class="app-body mt-0 page-wrapper">
+        <main class="main p-0">
+            <div class="page_header"><a href="{% url 'TaskManagement' %}">Task Management</a> /
+                <span>Details</span></div>
+            {% if messages %}
+                {% for message in messages %}
+                    <script type="text/javascript">
+                        toastr["{{message.tags}}"]("{{message}}", "{{message.tags|upper}}");
+                    </script>
+                {% endfor %}
+            {% endif %}
+            <div class="card">
+                <div class="card-header" style="text-align: center;">
+                    <strong>Detailed Information</strong>
+                </div>
+                <div class="card-body" style="display: flex; justify-content: center;">
+                    <div class="form_container_div">
+                        <div class="row">
+                            <div class="col-5" style="font-weight: 600;">Task Name</div>
+                            <div class="col-1" style="font-weight: 600;">:</div>
+                            <div class="col-6">{{ Task.name }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5" style="font-weight: 600;">Module Name</div>
+                            <div class="col-1" style="font-weight: 600;">:</div>
+                            <div class="col-6">{{ Task.module.name }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5" style="font-weight: 600;">Order</div>
+                            <div class="col-1" style="font-weight: 600;">:</div>
+                            <div class="col-6">{{ Task.order }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5" style="font-weight: 600;">Task Url</div>
+                            <div class="col-1" style="font-weight: 600;">:</div>
+                            <div class="col-6">{{ Task.task_url }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5" style="font-weight: 600;">Task Event</div>
+                            <div class="col-1" style="font-weight: 600;">:</div>
+                            <div class="d-flex col-6">
+                                {% if Task.view_task %}
+                                    <div class="p-1">View</div>
+                                {% endif %}
+                                {% if Task.add_task %}
+                                    <div class="p-1">Add</div>
+                                {% endif %}
+                                {% if Task.save_task %}
+                                    <div class="p-1">Save</div>
+                                {% endif %}
+                                {% if Task.edit_task %}
+                                    <div class="p-1">Edit</div>
+                                {% endif %}
+                                {% if Task.delete_task %}
+                                    <div class="p-1">Delete</div>
+                                {% endif %}
+                                {% if Task.print_task %}
+                                    <div class="p-1">Print</div>
+                                {% endif %}
+                                {% if Task.cancel_task %}
+                                    <div class="p-1">Cancel</div>
+                                {% endif %}
+                                {% if Task.reset_task %}
+                                    <div class="p-1">Reset</div>
+                                {% endif %}
+                                {% if Task.find_task %}
+                                    <div class="p-1">Find</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer" style="display:flex;">
+                    <button type="button" class="btn btn-sm btn-secondary" onclick="javascript:window.history.back();">
+                        <i class="fa fa-angle-left"></i> Back
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+    

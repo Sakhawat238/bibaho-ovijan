@@ -1,0 +1,154 @@
+{% extends "Common/Admin/base.html" %}
+{% block title %}
+    <title>Task Management</title>
+{% endblock title %}
+
+{% block style %}
+{% endblock %}
+
+{% block content %}
+    {% include 'Common/Admin/sidebar.html' with data=cnav %}
+
+    <div class="app-body mt-0 page-wrapper">
+        <main class="main p-0">
+            <div class="page_header"><a href="{% url 'TaskManagement' %}">Task Management</a> / <span>Create</span>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <script type="text/javascript">
+                        toastr["{{message.tags}}"]("{{message}}", "{{message.tags|upper}}");
+                    </script>
+                {% endfor %}
+            {% endif %}
+
+            <div class="card">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row d-flex">
+                                <div class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4 ml-0">
+                                    <label class="col-form-label required" for="text-input">Task
+                                        Name :</label>
+                                    <input id="element_name" type="text" name="element_name"
+                                           class="form-control form-control-sm col-12 col-md-9 col-lg-9 col-xl-9"
+                                           required>
+                                </div>
+                                <div class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4 ml-0">
+                                    <label class="col-form-label required" for="text-input">Task
+                                        Order :</label>
+                                    <input id="element_order" type="number" name="element_order"
+                                           class="form-control form-control-sm" required>
+                                </div>
+                                <div class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4 ml-0">
+                                    <label class="col-form-label required" for="task_url">Task Url
+                                        :</label>
+                                    <input type="text"
+                                           class="form-control form-control-sm col-12 col-md-9 col-lg-9 col-xl-9"
+                                           name="task_url" id="task_url" required>
+                                </div>
+                            </div>
+                            <div class="row d-flex">
+                                <div class="form-group col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2">
+                                    <label class="col-form-label required" for="text-input">Module Parent :</label>
+                                    <select class="form-control form-control-sm" id="element_module"
+                                            name="element_module" required>
+                                        <option value="">--Module Parent--</option>
+                                        {% for m in mdls %}
+                                            <option value="{{ m.id }}">{{ m.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-12 col-md-8 col-lg-8 col-xl-8 mt-2">
+                                    <label class="col-form-label" for="text-input">Task Event
+                                        :</label>
+                                    <div class="d-flex" style="flex-wrap: wrap;">
+                                        <div style="width: 80px; padding-top: 5px">
+                                            <input type="checkbox" name="element_event" value="view_checked"
+                                                   id="is-task-view"
+                                                   class="form-check-input mr-2">View</input>
+                                        </div>
+                                        <div style="width: 80px; padding-top: 5px">
+                                            <input type="checkbox" name="element_event" value="add_checked"
+                                                   id="is-task-view"
+                                                   class="form-check-input mr-2">Add</input>
+                                        </div>
+                                        <div style="width: 80px; padding-top: 5px">
+                                            <input type="checkbox" name="element_event" value="save_checked"
+                                                   id="is-task-view"
+                                                   class="form-check-input mr-2">Save</input>
+                                        </div>
+                                        <div style="width: 80px; padding-top: 5px">
+                                            <input type="checkbox" name="element_event" value="edit_checked"
+                                                   id="is-task-view"
+                                                   class="form-check-input mr-2">Edit</input>
+                                        </div>
+                                        <div style="width: 80px; padding-top: 5px">
+                                            <input type="checkbox" name="element_event" value="delete_checked"
+                                                   id="is-task-view"
+                                                   class="form-check-input mr-2">Delete</input>
+                                        </div>
+                                        <div style="width: 80px; padding-top: 5px">
+                                            <input type="checkbox" name="element_event" value="print_checked"
+                                                   id="is-task-view"
+                                                   class="form-check-input mr-2">Print</input>
+                                        </div>
+                                        <div style="width: 80px; padding-top: 5px">
+                                            <input type="checkbox" name="element_event" id="is-task-view"
+                                                   value="cancel_checked"
+                                                   class="form-check-input mr-2">Cancel</input>
+                                        </div>
+                                        <div style="width: 80px; padding-top: 5px">
+                                            <input type="checkbox" name="element_event" id="is-task-view"
+                                                   value="reset_checked"
+                                                   class="form-check-input mr-2">Reset</input>
+                                        </div>
+                                        <div style="width: 80px; padding-top: 5px">
+                                            <input type="checkbox" name="element_event" id="is-task-view"
+                                                   value="find_checked"
+                                                   class="form-check-input mr-2">Find</input>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-sm btn-secondary"
+                                    onclick="javascript:window.history.back();">
+                                <i class="fa fa-angle-left"></i> Back
+                            </button>
+                            <div style="width:10px;"></div>
+                            <button type="reset" class="reset btn btn-sm btn-danger">
+                                <i class="fa fa-ban"></i> Reset
+                            </button>
+                        </div>
+                        <div>
+                            <button type="submit" class="submit btn btn-sm btn-primary">
+                                <i class="fa fa-arrow-circle-right"></i> Submit
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+{% endblock content %}
+
+{% block js %}
+    <script type="text/javascript">
+
+        {% comment %}$(document).ready(function () {
+            var $catselect = $('#element_module');
+            if ($catselect.data('selectator') === undefined) {
+                $catselect.selectator({
+                    showAllOptionsOnFocus: true,
+                    searchFields: 'value text subtitle right'
+                });
+            }
+
+        }){% endcomment %}
+    </script>
+{% endblock %}
